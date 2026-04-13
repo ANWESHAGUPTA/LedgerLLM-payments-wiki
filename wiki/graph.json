@@ -1,0 +1,634 @@
+{
+  "nodes": [
+    {
+      "id": "3d-secure",
+      "title": "3D Secure",
+      "category": "concept",
+      "network": "all",
+      "status": "complete"
+    },
+    {
+      "id": "strong-customer-authentication",
+      "title": "Strong Customer Authentication",
+      "category": "gap",
+      "network": "all",
+      "status": "gap"
+    },
+    {
+      "id": "psd2",
+      "title": "PSD2",
+      "category": "gap",
+      "network": "all",
+      "status": "gap"
+    },
+    {
+      "id": "visa-secure",
+      "title": "Visa Secure",
+      "category": "gap",
+      "network": "visa",
+      "status": "gap"
+    },
+    {
+      "id": "mastercard-identity-check",
+      "title": "Mastercard Identity Check",
+      "category": "gap",
+      "network": "mastercard",
+      "status": "gap"
+    },
+    {
+      "id": "amex-safekey",
+      "title": "American Express SafeKey",
+      "category": "gap",
+      "network": "all",
+      "status": "gap"
+    },
+    {
+      "id": "stripe-decline-codes",
+      "title": "Stripe Decline Codes",
+      "category": "concept",
+      "network": "stripe",
+      "status": "complete"
+    },
+    {
+      "id": "payment-retry-strategy",
+      "title": "Payment Retry Strategy",
+      "category": "process",
+      "network": "all",
+      "status": "complete"
+    },
+    {
+      "id": "stripe-authentication-required",
+      "title": "Stripe authentication_required",
+      "category": "code",
+      "network": "stripe",
+      "status": "complete"
+    },
+    {
+      "id": "stripe-insufficient-funds",
+      "title": "Stripe insufficient_funds",
+      "category": "code",
+      "network": "stripe",
+      "status": "complete"
+    },
+    {
+      "id": "fraud-detection",
+      "title": "Fraud Detection",
+      "category": "gap",
+      "network": "all",
+      "status": "gap"
+    },
+    {
+      "id": "visa-dispute-process",
+      "title": "Visa Dispute Process",
+      "category": "network",
+      "network": "visa",
+      "status": "complete"
+    },
+    {
+      "id": "chargebacks",
+      "title": "Chargebacks",
+      "category": "concept",
+      "network": "all",
+      "status": "complete"
+    },
+    {
+      "id": "dispute-evidence-submission",
+      "title": "Dispute Evidence Submission",
+      "category": "gap",
+      "network": "all",
+      "status": "gap"
+    },
+    {
+      "id": "acquirer-processor-relationship",
+      "title": "Acquirer Processor Relationship",
+      "category": "gap",
+      "network": "all",
+      "status": "gap"
+    },
+    {
+      "id": "chargeback-costs",
+      "title": "Chargeback Costs",
+      "category": "gap",
+      "network": "all",
+      "status": "gap"
+    },
+    {
+      "id": "mastercard-chargeback-rules",
+      "title": "Mastercard Chargeback Rules",
+      "category": "network",
+      "network": "mastercard",
+      "status": "complete"
+    },
+    {
+      "id": "mastercard-reason-codes",
+      "title": "Mastercard Reason Codes",
+      "category": "network",
+      "network": "mastercard",
+      "status": "complete"
+    },
+    {
+      "id": "chargeback-thresholds",
+      "title": "Chargeback Thresholds",
+      "category": "concept",
+      "network": "all",
+      "status": "complete"
+    },
+    {
+      "id": "excessive-chargeback-merchants",
+      "title": "Excessive Chargeback Merchants",
+      "category": "gap",
+      "network": "all",
+      "status": "gap"
+    },
+    {
+      "id": "visa-monitoring-program",
+      "title": "Visa Monitoring Program",
+      "category": "gap",
+      "network": "visa",
+      "status": "gap"
+    },
+    {
+      "id": "chargeback-reason-codes",
+      "title": "Chargeback Reason Codes",
+      "category": "gap",
+      "network": "all",
+      "status": "gap"
+    },
+    {
+      "id": "visa-reason-codes",
+      "title": "Visa Reason Codes",
+      "category": "gap",
+      "network": "visa",
+      "status": "gap"
+    },
+    {
+      "id": "smart-retries",
+      "title": "Smart Retries",
+      "category": "concept",
+      "network": "stripe",
+      "status": "complete"
+    },
+    {
+      "id": "hard-decline-codes",
+      "title": "Hard Decline Codes",
+      "category": "concept",
+      "network": "stripe",
+      "status": "complete"
+    },
+    {
+      "id": "direct-debit-retries",
+      "title": "Direct Debit Retries",
+      "category": "concept",
+      "network": "stripe",
+      "status": "complete"
+    },
+    {
+      "id": "custom-retry-schedule",
+      "title": "Custom Retry Schedule",
+      "category": "gap",
+      "network": "stripe",
+      "status": "gap"
+    },
+    {
+      "id": "visa-dispute-monitoring-program",
+      "title": "Visa Dispute Monitoring Program",
+      "category": "network",
+      "network": "visa",
+      "status": "complete"
+    },
+    {
+      "id": "visa-pre-arbitration",
+      "title": "Visa Pre-Arbitration",
+      "category": "process",
+      "network": "visa",
+      "status": "complete"
+    },
+    {
+      "id": "visa-compliance-process",
+      "title": "Visa Compliance Process",
+      "category": "process",
+      "network": "visa",
+      "status": "complete"
+    },
+    {
+      "id": "visa-arbitration",
+      "title": "Visa Arbitration",
+      "category": "gap",
+      "network": "visa",
+      "status": "gap"
+    },
+    {
+      "id": "visa-core-rules",
+      "title": "Visa Core Rules",
+      "category": "gap",
+      "network": "visa",
+      "status": "gap"
+    },
+    {
+      "id": "friendly-fraud",
+      "title": "Friendly Fraud",
+      "category": "concept",
+      "network": "all",
+      "status": "complete"
+    },
+    {
+      "id": "first-party-misuse",
+      "title": "First-Party Misuse",
+      "category": "gap",
+      "network": "all",
+      "status": "gap"
+    },
+    {
+      "id": "visa-compelling-evidence-3-0",
+      "title": "Visa Compelling Evidence 3.0",
+      "category": "network",
+      "network": "visa",
+      "status": "complete"
+    },
+    {
+      "id": "visa-reason-code-10-4",
+      "title": "Visa Reason Code 10.4",
+      "category": "code",
+      "network": "visa",
+      "status": "complete"
+    },
+    {
+      "id": "order-insight",
+      "title": "Order Insight",
+      "category": "network",
+      "network": "visa",
+      "status": "complete"
+    },
+    {
+      "id": "chargeback-representment",
+      "title": "Chargeback Representment",
+      "category": "process",
+      "network": "all",
+      "status": "complete"
+    },
+    {
+      "id": "visa-resolve-online",
+      "title": "Visa Resolve Online",
+      "category": "gap",
+      "network": "visa",
+      "status": "gap"
+    }
+  ],
+  "edges": [
+    {
+      "source": "3d-secure",
+      "target": "strong-customer-authentication",
+      "type": "related"
+    },
+    {
+      "source": "strong-customer-authentication",
+      "target": "psd2",
+      "type": "part_of"
+    },
+    {
+      "source": "3d-secure",
+      "target": "visa-secure",
+      "type": "related"
+    },
+    {
+      "source": "3d-secure",
+      "target": "mastercard-identity-check",
+      "type": "related"
+    },
+    {
+      "source": "3d-secure",
+      "target": "amex-safekey",
+      "type": "related"
+    },
+    {
+      "source": "stripe-decline-codes",
+      "target": "3d-secure",
+      "type": "related"
+    },
+    {
+      "source": "stripe-decline-codes",
+      "target": "payment-retry-strategy",
+      "type": "related"
+    },
+    {
+      "source": "stripe-decline-codes",
+      "target": "fraud-detection",
+      "type": "related"
+    },
+    {
+      "source": "stripe-authentication-required",
+      "target": "3d-secure",
+      "type": "requires"
+    },
+    {
+      "source": "stripe-authentication-required",
+      "target": "stripe-decline-codes",
+      "type": "part_of"
+    },
+    {
+      "source": "stripe-authentication-required",
+      "target": "strong-customer-authentication",
+      "type": "related"
+    },
+    {
+      "source": "stripe-insufficient-funds",
+      "target": "stripe-decline-codes",
+      "type": "part_of"
+    },
+    {
+      "source": "stripe-insufficient-funds",
+      "target": "payment-retry-strategy",
+      "type": "related"
+    },
+    {
+      "source": "payment-retry-strategy",
+      "target": "3d-secure",
+      "type": "related"
+    },
+    {
+      "source": "visa-dispute-process",
+      "target": "chargebacks",
+      "type": "part_of"
+    },
+    {
+      "source": "visa-dispute-process",
+      "target": "dispute-evidence-submission",
+      "type": "requires"
+    },
+    {
+      "source": "visa-dispute-process",
+      "target": "acquirer-processor-relationship",
+      "type": "related"
+    },
+    {
+      "source": "chargebacks",
+      "target": "chargeback-costs",
+      "type": "triggers"
+    },
+    {
+      "source": "chargebacks",
+      "target": "dispute-evidence-submission",
+      "type": "requires"
+    },
+    {
+      "source": "mastercard-chargeback-rules",
+      "target": "chargebacks",
+      "type": "part_of"
+    },
+    {
+      "source": "mastercard-chargeback-rules",
+      "target": "mastercard-reason-codes",
+      "type": "requires"
+    },
+    {
+      "source": "mastercard-chargeback-rules",
+      "target": "chargeback-thresholds",
+      "type": "related"
+    },
+    {
+      "source": "mastercard-chargeback-rules",
+      "target": "dispute-evidence-submission",
+      "type": "requires"
+    },
+    {
+      "source": "mastercard-chargeback-rules",
+      "target": "visa-dispute-process",
+      "type": "related"
+    },
+    {
+      "source": "mastercard-reason-codes",
+      "target": "chargeback-reason-codes",
+      "type": "part_of"
+    },
+    {
+      "source": "mastercard-reason-codes",
+      "target": "visa-reason-codes",
+      "type": "related"
+    },
+    {
+      "source": "mastercard-reason-codes",
+      "target": "dispute-evidence-submission",
+      "type": "related"
+    },
+    {
+      "source": "chargeback-thresholds",
+      "target": "excessive-chargeback-merchants",
+      "type": "triggers"
+    },
+    {
+      "source": "chargeback-thresholds",
+      "target": "visa-monitoring-program",
+      "type": "related"
+    },
+    {
+      "source": "chargeback-thresholds",
+      "target": "mastercard-chargeback-rules",
+      "type": "part_of"
+    },
+    {
+      "source": "smart-retries",
+      "target": "payment-retry-strategy",
+      "type": "part_of"
+    },
+    {
+      "source": "smart-retries",
+      "target": "stripe-decline-codes",
+      "type": "related"
+    },
+    {
+      "source": "smart-retries",
+      "target": "hard-decline-codes",
+      "type": "related"
+    },
+    {
+      "source": "smart-retries",
+      "target": "direct-debit-retries",
+      "type": "related"
+    },
+    {
+      "source": "smart-retries",
+      "target": "custom-retry-schedule",
+      "type": "related"
+    },
+    {
+      "source": "hard-decline-codes",
+      "target": "stripe-decline-codes",
+      "type": "part_of"
+    },
+    {
+      "source": "hard-decline-codes",
+      "target": "stripe-authentication-required",
+      "type": "related"
+    },
+    {
+      "source": "hard-decline-codes",
+      "target": "payment-retry-strategy",
+      "type": "related"
+    },
+    {
+      "source": "direct-debit-retries",
+      "target": "payment-retry-strategy",
+      "type": "part_of"
+    },
+    {
+      "source": "visa-reason-codes",
+      "target": "chargeback-reason-codes",
+      "type": "part_of"
+    },
+    {
+      "source": "visa-reason-codes",
+      "target": "mastercard-reason-codes",
+      "type": "related"
+    },
+    {
+      "source": "visa-reason-codes",
+      "target": "visa-dispute-process",
+      "type": "part_of"
+    },
+    {
+      "source": "visa-reason-codes",
+      "target": "chargebacks",
+      "type": "related"
+    },
+    {
+      "source": "visa-dispute-monitoring-program",
+      "target": "chargeback-thresholds",
+      "type": "related"
+    },
+    {
+      "source": "visa-dispute-monitoring-program",
+      "target": "excessive-chargeback-merchants",
+      "type": "triggers"
+    },
+    {
+      "source": "visa-dispute-monitoring-program",
+      "target": "visa-dispute-process",
+      "type": "related"
+    },
+    {
+      "source": "visa-dispute-monitoring-program",
+      "target": "visa-monitoring-program",
+      "type": "related"
+    },
+    {
+      "source": "visa-pre-arbitration",
+      "target": "visa-dispute-process",
+      "type": "part_of"
+    },
+    {
+      "source": "visa-pre-arbitration",
+      "target": "dispute-evidence-submission",
+      "type": "requires"
+    },
+    {
+      "source": "visa-pre-arbitration",
+      "target": "visa-arbitration",
+      "type": "triggers"
+    },
+    {
+      "source": "visa-pre-arbitration",
+      "target": "mastercard-chargeback-rules",
+      "type": "related"
+    },
+    {
+      "source": "visa-compliance-process",
+      "target": "visa-dispute-process",
+      "type": "related"
+    },
+    {
+      "source": "visa-compliance-process",
+      "target": "visa-core-rules",
+      "type": "requires"
+    },
+    {
+      "source": "visa-compliance-process",
+      "target": "chargebacks",
+      "type": "related"
+    },
+    {
+      "source": "friendly-fraud",
+      "target": "chargebacks",
+      "type": "triggers"
+    },
+    {
+      "source": "friendly-fraud",
+      "target": "first-party-misuse",
+      "type": "related"
+    },
+    {
+      "source": "friendly-fraud",
+      "target": "dispute-evidence-submission",
+      "type": "related"
+    },
+    {
+      "source": "friendly-fraud",
+      "target": "visa-reason-codes",
+      "type": "related"
+    },
+    {
+      "source": "visa-compelling-evidence-3-0",
+      "target": "visa-reason-code-10-4",
+      "type": "applies_to"
+    },
+    {
+      "source": "visa-compelling-evidence-3-0",
+      "target": "friendly-fraud",
+      "type": "prevents"
+    },
+    {
+      "source": "visa-compelling-evidence-3-0",
+      "target": "order-insight",
+      "type": "integrates_with"
+    },
+    {
+      "source": "visa-compelling-evidence-3-0",
+      "target": "chargeback-representment",
+      "type": "improves"
+    },
+    {
+      "source": "visa-compelling-evidence-3-0",
+      "target": "visa-resolve-online",
+      "type": "uses"
+    },
+    {
+      "source": "visa-reason-code-10-4",
+      "target": "friendly-fraud",
+      "type": "commonly_triggers"
+    },
+    {
+      "source": "visa-reason-code-10-4",
+      "target": "chargebacks",
+      "type": "triggers"
+    },
+    {
+      "source": "visa-reason-code-10-4",
+      "target": "visa-reason-codes",
+      "type": "part_of"
+    },
+    {
+      "source": "order-insight",
+      "target": "visa-dispute-process",
+      "type": "part_of"
+    },
+    {
+      "source": "order-insight",
+      "target": "chargeback-representment",
+      "type": "prevents_need_for"
+    },
+    {
+      "source": "chargeback-representment",
+      "target": "chargebacks",
+      "type": "responds_to"
+    },
+    {
+      "source": "chargeback-representment",
+      "target": "dispute-evidence-submission",
+      "type": "requires"
+    },
+    {
+      "source": "chargeback-representment",
+      "target": "visa-resolve-online",
+      "type": "uses"
+    }
+  ]
+}
