@@ -2,49 +2,43 @@
 title: Stripe authentication_required
 category: code
 network: stripe
-related: [[3d-secure]], [[stripe-decline-codes]]
-sources: ["raw/codes.md"]
-last_compiled: 2026-04-12
+related: [[3d-secure]], [[strong-customer-authentication]], [[stripe-decline-codes]]
+sources: [raw/codes.md]
+last_compiled: 2026-04-15
 confidence: high
 ---
 
 # Stripe authentication_required
 
 ## Summary
-The card was declined because the transaction requires authentication such as [[3d-secure]].
+Stripe's `authentication_required` decline code indicates the card was declined because the transaction requires additional security verification, typically 3D Secure authentication.
 
 ## Details
-This decline occurs when the card issuer requires additional authentication before approving the payment. Most commonly triggered by Strong Customer Authentication (SCA) requirements under PSD2 regulations.
+This is a soft decline that occurs when the card issuer requires strong customer authentication (SCA) to authorize the payment. When using Stripe's front-end components, this typically triggers an automatic authentication flow, allowing the customer to complete the verification and retry the payment.
 
-### When it happens:
-- First-time payments from new customers
-- High-value transactions
-- Payments from different devices/locations
-- Off-session payments without prior authentication
+### When it occurs:
+- Card issuer requires 3D Secure verification
+- Strong Customer Authentication (SCA) is mandated
+- Payment appears to be higher risk to the issuer
 
 ### Merchant response:
-When using Stripe's front-ends, this usually triggers an automatic authentication flow. For off-session payments, you may need to request the customer to retry with authentication.
-
-## Compliance notes
-This decline is directly related to [[strong-customer-authentication]] requirements under [[psd2]]. Merchants must handle this properly to remain compliant with European regulations.
+- For on-session payments: Stripe's front-end automatically handles the authentication flow
+- For off-session payments: Request the customer to retry with authentication
+- If decline occurs despite successful authentication: Customer must contact their card issuer
 
 ## Technical reference
-**Code**: `authentication_required`
-**Network**: Stripe
-**Action required**: Yes - must initiate authentication flow
-**Retry recommended**: Yes, after authentication
+- **Stripe code**: `authentication_required`
+- **Related code**: `authentication_not_handled` (when authentication is skipped)
+- **Retry recommendation**: Yes, after authentication
+- **API attribute**: May include `advice_code` with suggested next steps
 
-### API handling:
-```
-"decline_code": "authentication_required"
-```
-
-If the card issuer returns this code despite successful authentication, the customer needs to contact their issuer.
+## Cross-network comparison
+Not covered in current sources.
 
 ## Related
-- [[3d-secure]]
-- [[stripe-decline-codes]]
-- [[strong-customer-authentication]]
+- [[3d-secure]] — The authentication protocol required
+- [[strong-customer-authentication]] — EU regulation driving authentication requirements
+- [[stripe-decline-codes]] — Complete list of Stripe decline codes
 
 ## Sources
 - raw/codes.md

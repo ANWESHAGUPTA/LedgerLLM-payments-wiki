@@ -3,7 +3,7 @@ source: https://docs.stripe.com/declines/codes
 title: Stripe decline codes | Stripe Documentation
 type: reference
 domain: payments
-ingested: 2026-04-12
+ingested: 2026-04-15
 tags: []
 ---
 

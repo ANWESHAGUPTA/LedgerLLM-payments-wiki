@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LedgerLLM — One wiki for all your knowledge</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #0F0E17;
+    color: #E0DFF0;
+    min-height: 100vh;
+  }
+
+  /* NAV */
+  .nav {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 20px 32px;
+    border-bottom: 0.5px solid #2A2740;
+  }
+  .nav-logo {
+    width: 28px; height: 28px;
+    background: linear-gradient(135deg, #7B5EA7, #3EC9A7);
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-weight: 600; font-size: 13px;
+  }
+  .nav-title { font-weight: 600; font-size: 15px; color: #F0EEFF; }
+  .nav-tagline { font-size: 12px; color: #6B6490; margin-left: auto; }
+  .nav-badge {
+    background: #1A3332; color: #3EC9A7;
+    font-size: 11px; padding: 3px 10px;
+    border-radius: 99px; font-weight: 500;
+    margin-left: 8px; display: none;
+  }
+
+  /* SCREENS */
+  .screen { display: none; max-width: 720px; margin: 0 auto; padding: 40px 24px; }
+  .screen.active { display: block; }
+
+  /* INPUT SCREEN */
+  .input-label { font-size: 14px; color: #8D86B0; margin-bottom: 12px; }
+  .url-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+  .url-row {
+    display: flex; gap: 8px; align-items: center;
+  }
+  .url-row input {
+    flex: 1; height: 36px;
+    background: #1A1828; border: 0.5px solid #2A2740;
+    border-radius: 8px; padding: 0 12px;
+    color: #E0DFF0; font-size: 13px; outline: none;
+  }
+  .url-row input::placeholder { color: #4A4560; }
+  .url-row input:focus { border-color: #3EC9A7; }
+  .url-remove {
+    width: 20px; height: 20px; color: #6B6490;
+    font-size: 16px; cursor: pointer; text-align: center;
+    line-height: 20px; border: none; background: none;
+  }
+  .url-remove:hover { color: #F87171; }
+  .add-row {
+    display: flex; gap: 8px; align-items: center;
+  }
+  .add-row input {
+    flex: 1; height: 36px;
+    background: #1A1828; border: 0.5px solid #2A2740;
+    border-radius: 8px; padding: 0 12px;
+    color: #E0DFF0; font-size: 13px; outline: none;
+  }
+  .add-row input::placeholder { color: #4A4560; }
+  .add-btn {
+    width: 28px; height: 28px;
+    border: 0.5px solid #3E3A58; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; color: #8D86B0; cursor: pointer;
+    background: none;
+  }
+  .add-btn:hover { border-color: #3EC9A7; color: #3EC9A7; }
+
+  /* VALIDATION WARNING */
+  .warning {
+    display: none;
+    align-items: center; gap: 8px;
+    padding: 10px 14px;
+    background: #231A10; border: 0.5px solid #3D2E18;
+    border-radius: 8px; margin-bottom: 16px;
+  }
+  .warning.show { display: flex; }
+  .warning-icon {
+    width: 18px; height: 18px; border-radius: 50%;
+    background: #F0B866;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; color: #231A10; font-weight: 600;
+    flex-shrink: 0;
+  }
+  .warning p { font-size: 13px; color: #F0B866; }
+
+  /* COMPILE BUTTON */
+  .compile-wrap { display: flex; justify-content: center; margin-top: 24px; }
+  .compile-btn {
+    background: #3EC9A7; color: #0F0E17;
+    padding: 12px 40px; border-radius: 8px;
+    font-weight: 600; font-size: 14px;
+    cursor: pointer; border: none;
+  }
+  .compile-btn:hover { background: #34B898; }
+  .compile-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  /* LOADING SCREEN */
+  .loader-wrap {
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    min-height: 300px; gap: 16px;
+  }
+  .spinner {
+    width: 32px; height: 32px;
+    border: 3px solid #2A2740;
+    border-top-color: #3EC9A7;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .loader-text { font-size: 14px; color: #8D86B0; }
+  .loader-sub { font-size: 12px; color: #4A4560; }
+
+  /* ERROR SCREEN */
+  .error-wrap {
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    min-height: 300px; gap: 16px;
+  }
+  .error-icon {
+    width: 48px; height: 48px; border-radius: 50%;
+    background: #261418; border: 0.5px solid #40222A;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .error-title { font-size: 15px; font-weight: 600; color: #F0EEFF; }
+  .error-msg { font-size: 13px; color: #6B6490; text-align: center; max-width: 320px; }
+  .error-buttons { display: flex; gap: 12px; margin-top: 8px; }
+  .btn-secondary {
+    background: #1A1828; border: 0.5px solid #2A2740;
+    color: #8D86B0; padding: 10px 24px; border-radius: 8px;
+    font-size: 13px; cursor: pointer; font-weight: 500;
+  }
+  .btn-primary {
+    background: #3EC9A7; color: #0F0E17;
+    padding: 10px 24px; border-radius: 8px;
+    font-size: 13px; cursor: pointer; font-weight: 500; border: none;
+  }
+  /* ASK BAR */
+  .ask-bar {
+    background: #1A1828; border: 0.5px solid #2A2740;
+    border-radius: 8px; padding: 12px 16px;
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 24px;
+  }
+  .ask-icon { font-size: 14px; color: #3EC9A7; font-weight: 600; }
+  .ask-bar input {
+    flex: 1; background: none; border: none;
+    color: #E0DFF0; font-size: 14px; outline: none;
+  }
+  .ask-bar input::placeholder { color: #4A4560; }
+  .ask-btn {
+    background: #3EC9A7; color: #0F0E17;
+    padding: 6px 16px; border-radius: 8px;
+    font-size: 12px; font-weight: 600; border: none; cursor: pointer;
+  }
+
+  /* TILES */
+  .tiles {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 8px; margin-bottom: 24px;
+  }
+  .tile {
+    border-radius: 8px; padding: 12px;
+    cursor: pointer; text-align: center;
+    transition: all 0.2s;
+  }
+  .tile:hover { transform: translateY(-2px); }
+  .tile.dimmed { opacity: 0.4; }
+  .tile-count { font-size: 20px; font-weight: 600; }
+  .tile-label { font-size: 11px; font-weight: 500; }
+
+  /* TILE POPUP */
+  .tile-popup {
+    display: none;
+    background: #1A1828; border: 0.5px solid #2A2740;
+    border-radius: 12px; padding: 16px 20px;
+    margin-bottom: 24px;
+  }
+  .tile-popup.open { display: block; }
+  .popup-header {
+    display: flex; align-items: center;
+    justify-content: space-between; margin-bottom: 14px;
+  }
+  .popup-title-row { display: flex; align-items: center; gap: 8px; }
+  .popup-dot { width: 8px; height: 8px; border-radius: 50%; }
+  .popup-title { font-weight: 500; font-size: 14px; color: #F0EEFF; }
+  .popup-count {
+    font-size: 11px; padding: 2px 8px;
+    border-radius: 99px;
+  }
+  .popup-close {
+    width: 24px; height: 24px; border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; color: #6B6490; font-size: 14px;
+    border: 0.5px solid #2A2740; background: none;
+  }
+  .popup-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 12px; border-radius: 8px; cursor: pointer;
+  }
+  .popup-item:hover { background: #252240; }
+  .popup-item-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+  .popup-item-title { font-size: 13px; font-weight: 500; color: #E0DFF0; }
+  .popup-item-summary { font-size: 11px; color: #6B6490; margin-top: 2px; }
+  .popup-item-links { font-size: 11px; color: #4A4560; margin-left: auto; white-space: nowrap; }
+
+  /* GRAPH */
+  .graph-container {
+    background: #1A1828; border-radius: 12px;
+    padding: 16px; margin-bottom: 24px;
+    min-height: 350px; position: relative;
+    overflow: hidden;
+  }
+  #graphSvg { width: 100%; height: 350px; }
+  .graph-hint {
+    position: absolute; bottom: 8px; right: 12px;
+    font-size: 10px; color: #4A4560;
+  }
+
+  /* ARTICLE VIEWER */
+  .article-viewer {
+    display: none;
+    background: #1A1828; border: 0.5px solid #2A2740;
+    border-radius: 12px; padding: 20px;
+  }
+  .article-viewer.open { display: block; }
+  .article-header {
+    display: flex; align-items: center; gap: 8px;
+    margin-bottom: 12px;
+  }
+  .article-dot { width: 8px; height: 8px; border-radius: 50%; }
+  .article-title { font-weight: 500; font-size: 14px; color: #F0EEFF; }
+  .article-cat {
+    font-size: 11px; padding: 2px 8px;
+    border-radius: 99px;
+  }
+  .article-body {
+    font-size: 13px; color: #8D86B0;
+    line-height: 1.6; margin-bottom: 12px;
+  }
+  .article-body h1, .article-body h2 {
+    color: #F0EEFF; font-size: 14px;
+    margin: 16px 0 8px; font-weight: 500;
+  }
+  .article-body p { margin-bottom: 8px; }
+  .article-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+  .article-tag {
+    font-size: 11px; padding: 3px 10px;
+    border-radius: 99px; cursor: pointer;
+    border: 0.5px solid;
+  }
+  
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-logo">L</div>
+  <span class="nav-title">LedgerLLM</span>
+  <span class="nav-badge" id="wikiBadge">Wiki ready</span>
+  <span class="nav-tagline">One wiki for all your knowledge</span>
+</nav>
+
+<!-- SCREEN 1: Input -->
+<div class="screen active" id="inputScreen">
+  <p class="input-label">Paste source URLs or upload files</p>
+  <div class="url-list" id="urlList"></div>
+  <div class="add-row" id="addRow">
+    <input type="text" id="newUrl" placeholder="Add URL...">
+    <button class="add-btn" id="addBtn" onclick="addUrl()">+</button>
+  </div>
+  <div class="warning" id="urlWarning">
+    <div class="warning-icon">!</div>
+    <p>For this POC, you can add up to 10 links for Ingest + Compile. Need more? Let us know.</p>
+  </div>
+  <div class="compile-wrap">
+    <button class="compile-btn" id="compileBtn" onclick="startCompile()">Ingest + Compile</button>
+  </div>
+</div>
+
+<!-- SCREEN 2: Loading -->
+<div class="screen" id="loadingScreen">
+  <div class="loader-wrap">
+    <div class="spinner"></div>
+    <p class="loader-text" id="loaderText">Compiling sources into knowledge wiki...</p>
+    <p class="loader-sub">Extracting entities, building cross-links, generating graph</p>
+  </div>
+</div>
+
+<!-- SCREEN 2A: Error -->
+<div class="screen" id="errorScreen">
+  <div class="error-wrap">
+    <div class="error-icon">
+      <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+        <circle cx="11" cy="11" r="10" stroke="#F87171" stroke-width="1.5"/>
+        <line x1="11" y1="6" x2="11" y2="12" stroke="#F87171" stroke-width="1.5" stroke-linecap="round"/>
+        <circle cx="11" cy="15.5" r="1" fill="#F87171"/>
+      </svg>
+    </div>
+    <p class="error-title">Claude ran into some issues</p>
+    <p class="error-msg">Something went wrong while compiling your sources. Please try again later.</p>
+    <div class="error-buttons">
+      <button class="btn-secondary" onclick="showScreen('inputScreen')">Go back</button>
+      <button class="btn-primary" onclick="startCompile()">Try again</button>
+    </div>
+  </div>
+</div>
+
+<!-- SCREEN 3: Dashboard (we'll build this next) -->
+<!-- SCREEN 3: Dashboard -->
+<div class="screen" id="dashboardScreen">
+
+  <!-- Ask the wiki -->
+  <div class="ask-bar">
+    <span class="ask-icon">?</span>
+    <input type="text" id="askInput" placeholder='Ask the wiki... "What are our obligations for Visa disputes?"'>
+    <button class="ask-btn" onclick="askWiki()">Ask</button>
+  </div>
+
+  <!-- Category tiles -->
+  <div class="tiles" id="tiles"></div>
+
+  <!-- Tile popup -->
+  <div class="tile-popup" id="tilePopup">
+    <div class="popup-header">
+      <div class="popup-title-row">
+        <div class="popup-dot" id="popupDot"></div>
+        <span class="popup-title" id="popupTitle"></span>
+        <span class="popup-count" id="popupCount"></span>
+      </div>
+      <button class="popup-close" onclick="closePopup()">x</button>
+    </div>
+    <div class="popup-list" id="popupList"></div>
+  </div>
+
+  <!-- Knowledge graph -->
+  <div class="graph-container" id="graphContainer">
+    <svg id="graphSvg"></svg>
+    <div class="graph-hint">Drag to pan. Scroll to zoom. Click a node to read.</div>
+  </div>
+
+  <!-- Article viewer -->
+  <div class="article-viewer" id="articleViewer">
+    <div class="article-header">
+      <div class="article-dot" id="articleDot"></div>
+      <span class="article-title" id="articleTitle"></span>
+      <span class="article-cat" id="articleCat"></span>
+    </div>
+    <div class="article-body" id="articleBody"></div>
+    <div class="article-tags" id="articleTags"></div>
+  </div>
+
+</div>
+<script>
+    const API = "http://127.0.0.1:5000";
+  const MAX_URLS = 10;
+  let urls = [];
+
+  const CAT_COLORS = {
+    concepts: { bg: "#1E1A35", border: "#3D3560", text: "#A78BFA", glow: "rgba(167,139,250,0.2)" },
+    codes:    { bg: "#14202E", border: "#1E3A5F", text: "#60A5FA", glow: "rgba(96,165,250,0.2)" },
+    networks: { bg: "#0F2420", border: "#1A3D34", text: "#3EC9A7", glow: "rgba(62,201,167,0.2)" },
+    processes:{ bg: "#231A10", border: "#3D2E18", text: "#F0B866", glow: "rgba(240,184,102,0.2)" },
+    gaps:     { bg: "#261418", border: "#40222A", text: "#F87171", glow: "rgba(248,113,113,0.2)" }
+  };
+
+  let graphData = null;
+  let articlesData = null;
+  let selectedTile = null;
+
+  // Auto-load dashboard if wiki already has data
+  window.addEventListener("load", async () => {
+    try {
+      const res = await fetch(`${API}/api/graph`);
+      const graphCheck = await res.json();
+      if (graphCheck.nodes && graphCheck.nodes.length > 0) {
+        showScreen("dashboardScreen");
+        await loadDashboard();
+      }
+    } catch (e) {
+      // Flask not running, stay on input screen
+    }
+  });
+
+  // --- SCREEN MANAGEMENT ---
+  function showScreen(id) {
+    document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
+    document.getElementById(id).classList.add("active");
+    document.getElementById("wikiBadge").style.display =
+      id === "dashboardScreen" ? "inline-block" : "none";
+  }
+
+  // --- URL MANAGEMENT ---
+  function renderUrls() {
+    const list = document.getElementById("urlList");
+    list.innerHTML = "";
+    urls.forEach((url, i) => {
+      const row = document.createElement("div");
+      row.className = "url-row";
+      row.innerHTML = `
+        <input type="text" value="${url}" onchange="urls[${i}]=this.value" />
+        <button class="url-remove" onclick="removeUrl(${i})">x</button>
+      `;
+      list.appendChild(row);
+    });
+    const warning = document.getElementById("urlWarning");
+    const addRow = document.getElementById("addRow");
+    if (urls.length >= MAX_URLS) {
+      warning.classList.add("show");
+      addRow.style.opacity = "0.3";
+      addRow.style.pointerEvents = "none";
+    } else {
+      warning.classList.remove("show");
+      addRow.style.opacity = "1";
+      addRow.style.pointerEvents = "auto";
+    }
+  }
+
+  function addUrl() {
+    const input = document.getElementById("newUrl");
+    const val = input.value.trim();
+    if (!val) return;
+    if (urls.length >= MAX_URLS) return;
+    urls.push(val);
+    input.value = "";
+    renderUrls();
+  }
+
+  document.getElementById("newUrl").addEventListener("keydown", function(e) {
+    if (e.key === "Enter") addUrl();
+  });
+
+  function removeUrl(i) {
+    urls.splice(i, 1);
+    renderUrls();
+  }
+
+  // --- COMPILE ---
+  async function startCompile() {
+    if (urls.length === 0) {
+      alert("Please add at least one URL.");
+      return;
+    }
+    showScreen("loadingScreen");
+    document.getElementById("loaderText").textContent =
+      `Compiling ${urls.length} source${urls.length > 1 ? "s" : ""} into knowledge wiki...`;
+
+    try {
+      const compileRes = await fetch(`${API}/api/compile`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ urls: urls })
+      });
+      const compileData = await compileRes.json();
+
+      if (!compileRes.ok) {
+        showScreen("errorScreen");
+        return;
+      }
+
+      showScreen("dashboardScreen");
+      await loadDashboard();
+
+    } catch (err) {
+      console.error(err);
+      showScreen("errorScreen");
+    }
+  }
+
+  // --- LOAD DASHBOARD ---
+  async function loadDashboard() {
+    try {
+      const [graphRes, articlesRes] = await Promise.all([
+        fetch(`${API}/api/graph`),
+        fetch(`${API}/api/articles`)
+      ]);
+      graphData = await graphRes.json();
+      articlesData = await articlesRes.json();
+
+      console.log("Loaded:", graphData.nodes.length, "nodes",
+        Object.values(articlesData).flat().length, "articles");
+
+      renderTiles();
+      renderGraph();
+    } catch (err) {
+      console.error("Dashboard load error:", err);
+    }
+  }
+
+  // --- TILES ---
+  function renderTiles() {
+    const container = document.getElementById("tiles");
+    container.innerHTML = "";
+    const cats = ["concepts", "codes", "networks", "processes", "gaps"];
+    cats.forEach(cat => {
+      const count = articlesData[cat] ? articlesData[cat].length : 0;
+      const c = CAT_COLORS[cat];
+      const tile = document.createElement("div");
+      tile.className = "tile";
+      tile.id = `tile-${cat}`;
+      tile.style.background = c.bg;
+      tile.style.border = `0.5px solid ${c.border}`;
+      tile.innerHTML = `
+        <div class="tile-count" style="color:${c.text}">${count}</div>
+        <div class="tile-label" style="color:${c.text}">${cat.charAt(0).toUpperCase() + cat.slice(1)}</div>
+      `;
+      tile.onclick = () => openTilePopup(cat);
+      container.appendChild(tile);
+    });
+  }
+
+  // --- TILE POPUP ---
+  function openTilePopup(cat) {
+    selectedTile = cat;
+    const c = CAT_COLORS[cat];
+    const articles = articlesData[cat] || [];
+
+    document.querySelectorAll(".tile").forEach(t => {
+      if (t.id === `tile-${cat}`) {
+        t.classList.remove("dimmed");
+        t.style.border = `1.5px solid ${c.text}`;
+        t.style.boxShadow = `0 0 12px ${c.glow}`;
+      } else {
+        t.classList.add("dimmed");
+      }
+    });
+
+    document.getElementById("popupDot").style.background = c.text;
+    document.getElementById("popupTitle").textContent = cat.charAt(0).toUpperCase() + cat.slice(1);
+    document.getElementById("popupCount").textContent = `${articles.length} articles`;
+    document.getElementById("popupCount").style.color = c.text;
+    document.getElementById("popupCount").style.background = c.bg;
+
+    const list = document.getElementById("popupList");
+    list.innerHTML = "";
+    articles.forEach(a => {
+      const item = document.createElement("div");
+      item.className = "popup-item";
+      item.innerHTML = `
+        <div class="popup-item-dot" style="background:${c.text}"></div>
+        <div style="flex:1">
+          <div class="popup-item-title">${a.title}</div>
+          <div class="popup-item-summary">${a.summary || "No summary available"}</div>
+        </div>
+      `;
+      item.onclick = () => loadArticle(a.id);
+      list.appendChild(item);
+    });
+
+    document.getElementById("tilePopup").classList.add("open");
+    document.getElementById("tilePopup").style.borderColor = c.border;
+  }
+
+  function closePopup() {
+    selectedTile = null;
+    document.getElementById("tilePopup").classList.remove("open");
+    document.querySelectorAll(".tile").forEach(t => {
+      t.classList.remove("dimmed");
+      const cat = t.id.replace("tile-", "");
+      const c = CAT_COLORS[cat];
+      t.style.border = `0.5px solid ${c.border}`;
+      t.style.boxShadow = "none";
+    });
+  }
+
+  // --- ARTICLE VIEWER ---
+  async function loadArticle(articleId) {
+    const articleRes = await fetch(`${API}/api/wiki/${articleId}`);
+    if (!articleRes.ok) {
+      document.getElementById("articleDot").style.background = "#F87171";
+      document.getElementById("articleTitle").textContent = articleId.replace(/-/g, " ").replace(/\b\w/g, l => l.toUpperCase());
+      document.getElementById("articleCat").textContent = "gap";
+      document.getElementById("articleCat").style.color = "#F87171";
+      document.getElementById("articleCat").style.background = "#261418";
+      document.getElementById("articleBody").innerHTML = "<p>This topic is referenced but has no wiki article yet. Add more sources that cover this topic and recompile.</p>";
+      document.getElementById("articleTags").innerHTML = "";
+      document.getElementById("articleViewer").classList.add("open");
+      return;
+    }
+    const articleData = await articleRes.json();
+    const c = CAT_COLORS[articleData.category] || CAT_COLORS["concepts"];
+
+    document.getElementById("articleDot").style.background = c.text;
+    document.getElementById("articleTitle").textContent =
+      articleId.replace(/-/g, " ").replace(/\b\w/g, l => l.toUpperCase());
+    document.getElementById("articleCat").textContent = articleData.category;
+    document.getElementById("articleCat").style.color = c.text;
+    document.getElementById("articleCat").style.background = c.bg;
+
+    let md = articleData.content;
+    if (md.startsWith("---")) {
+      const end = md.indexOf("---", 3);
+      if (end !== -1) md = md.substring(end + 3).trim();
+    }
+    const html = md
+      .split("\n")
+      .map(line => {
+        if (line.startsWith("## ")) return `<h2>${line.slice(3)}</h2>`;
+        if (line.startsWith("# ")) return `<h1>${line.slice(2)}</h1>`;
+        if (line.startsWith("- [[")) {
+          const match = line.match(/\[\[(.+?)\]\]/);
+          if (match) return `<p style="color:#3EC9A7;cursor:pointer" onclick="loadArticle('${match[1]}')">${match[1].replace(/-/g, " ")}</p>`;
+        }
+        if (line.trim()) return `<p>${line}</p>`;
+        return "";
+      })
+      .join("");
+
+    document.getElementById("articleBody").innerHTML = html;
+
+    const tags = [];
+    if (graphData) {
+      graphData.edges.forEach(e => {
+        if (e.source === articleId || (e.source.id && e.source.id === articleId))
+          tags.push(e.target.id || e.target);
+        if (e.target === articleId || (e.target.id && e.target.id === articleId))
+          tags.push(e.source.id || e.source);
+      });
+    }
+    const tagsEl = document.getElementById("articleTags");
+    tagsEl.innerHTML = "";
+    [...new Set(tags)].slice(0, 6).forEach(tag => {
+      const node = graphData.nodes.find(n => n.id === tag);
+      const tc = CAT_COLORS[(node && node.category) ? node.category : "gaps"] || CAT_COLORS["concepts"];
+      const span = document.createElement("span");
+      span.className = "article-tag";
+      span.textContent = tag.replace(/-/g, " ");
+      span.style.color = tc.text;
+      span.style.background = tc.bg;
+      span.style.borderColor = tc.border;
+      span.onclick = () => loadArticle(tag);
+      tagsEl.appendChild(span);
+    });
+
+    document.getElementById("articleViewer").classList.add("open");
+  }
+
+  // --- KNOWLEDGE GRAPH ---
+  function renderGraph() {
+    const svg = d3.select("#graphSvg");
+    svg.selectAll("*").remove();
+
+    if (!graphData || !graphData.nodes.length) {
+      console.log("No graph data to render");
+      return;
+    }
+
+    const container = document.getElementById("graphContainer");
+    const width = Math.max(container.clientWidth - 32, 400);
+    const height = 350;
+    svg.attr("viewBox", `0 0 ${width} ${height}`);
+
+    const nodes = graphData.nodes.map(n => ({ ...n }));
+    const nodeIds = new Set(nodes.map(n => n.id));
+
+    graphData.edges.forEach(e => {
+      if (!nodeIds.has(e.source)) {
+        nodes.push({ id: e.source, title: e.source.replace(/-/g, " "), category: "gaps", status: "gap" });
+        nodeIds.add(e.source);
+      }
+      if (!nodeIds.has(e.target)) {
+        nodes.push({ id: e.target, title: e.target.replace(/-/g, " "), category: "gaps", status: "gap" });
+        nodeIds.add(e.target);
+      }
+    });
+
+    const edges = graphData.edges.map(e => ({ source: e.source, target: e.target, type: e.type }));
+
+    const g = svg.append("g");
+    svg.call(d3.zoom().scaleExtent([0.3, 3]).on("zoom", (e) => {
+      g.attr("transform", e.transform);
+    }));
+
+    const sim = d3.forceSimulation(nodes)
+      .force("link", d3.forceLink(edges).id(d => d.id).distance(80))
+      .force("charge", d3.forceManyBody().strength(-200))
+      .force("center", d3.forceCenter(width / 2, height / 2))
+      .force("collision", d3.forceCollide().radius(35));
+
+    const link = g.selectAll("line")
+      .data(edges).enter().append("line")
+      .attr("stroke", d => {
+        const src = nodes.find(n => n.id === (d.source.id || d.source));
+        return src ? CAT_COLORS[src.category]?.text || "#4A4560" : "#4A4560";
+      })
+      .attr("stroke-width", 1)
+      .attr("stroke-opacity", 0.4);
+
+    const node = g.selectAll("g.node")
+      .data(nodes).enter().append("g")
+      .attr("class", "node")
+      .style("cursor", "pointer")
+      .call(d3.drag()
+        .on("start", (e, d) => { if (!e.active) sim.alphaTarget(0.3).restart(); d.fx = d.x; d.fy = d.y; })
+        .on("drag", (e, d) => { d.fx = e.x; d.fy = e.y; })
+        .on("end", (e, d) => { if (!e.active) sim.alphaTarget(0); d.fx = null; d.fy = null; })
+      )
+      .on("click", (e, d) => loadArticle(d.id));
+
+    node.append("circle")
+      .attr("r", d => d.status === "gap" ? 14 : 18)
+      .attr("fill", d => CAT_COLORS[d.category]?.text || "#A78BFA")
+      .attr("opacity", 0.12);
+
+    node.append("circle")
+      .attr("r", d => d.status === "gap" ? 14 : 18)
+      .attr("fill", "none")
+      .attr("stroke", d => CAT_COLORS[d.category]?.text || "#A78BFA")
+      .attr("stroke-width", 1.5);
+
+    node.append("text")
+      .text(d => d.title.length > 15 ? d.title.slice(0, 13) + "..." : d.title)
+      .attr("text-anchor", "middle")
+      .attr("dy", -2)
+      .attr("fill", d => CAT_COLORS[d.category]?.text || "#A78BFA")
+      .attr("font-size", "7px")
+      .attr("font-weight", "500");
+
+    node.append("text")
+      .text(d => d.category)
+      .attr("text-anchor", "middle")
+      .attr("dy", 8)
+      .attr("fill", d => CAT_COLORS[d.category]?.text || "#A78BFA")
+      .attr("font-size", "5px")
+      .attr("opacity", 0.7);
+
+    sim.on("tick", () => {
+      link
+        .attr("x1", d => d.source.x).attr("y1", d => d.source.y)
+        .attr("x2", d => d.target.x).attr("y2", d => d.target.y);
+      node.attr("transform", d => `translate(${d.x},${d.y})`);
+    });
+  }
+
+  // --- ASK WIKI ---
+  async function askWiki() {
+    const input = document.getElementById("askInput");
+    const question = input.value.trim();
+    if (!question) return;
+
+    const btn = document.querySelector(".ask-btn");
+    btn.textContent = "...";
+    btn.disabled = true;
+
+    try {
+      const askRes = await fetch(`${API}/api/ask`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ question: question })
+      });
+      const askData = await askRes.json();
+
+      if (askData.error) {
+        showAnswer("Something went wrong: " + askData.error);
+      } else {
+        showAnswer(askData.answer);
+      }
+    } catch (err) {
+      showAnswer("Claude ran into some issues. Please try again later.");
+    }
+
+    btn.textContent = "Ask";
+    btn.disabled = false;
+  }
+
+  document.getElementById("askInput")?.addEventListener("keydown", function(e) {
+    if (e.key === "Enter") askWiki();
+  });
+
+  function showAnswer(text) {
+    const html = text.replace(/\[\[(.+?)\]\]/g, (match, id) => {
+      return `<span style="color:#3EC9A7;cursor:pointer;text-decoration:underline" onclick="loadArticle('${id}')">${id.replace(/-/g, " ")}</span>`;
+    });
+
+    document.getElementById("articleDot").style.background = "#3EC9A7";
+    document.getElementById("articleTitle").textContent = "Wiki answer";
+    document.getElementById("articleCat").textContent = "Q&A";
+    document.getElementById("articleCat").style.color = "#3EC9A7";
+    document.getElementById("articleCat").style.background = "#0F2420";
+    document.getElementById("articleBody").innerHTML = `<p>${html}</p>`;
+    document.getElementById("articleTags").innerHTML = "";
+    document.getElementById("articleViewer").classList.add("open");
+  }
+</script>
+
+</body>
+</html>
