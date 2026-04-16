@@ -44,6 +44,9 @@ def find_all_articles():
         for line in content.split("\n"):
             if line.startswith("category:"):
                 cat = line.replace("category:", "").strip().lower()
+                # handle singular/plural mismatch
+                cat_map = {"concept": "concepts", "code": "codes", "network": "networks", "process": "processes", "gap": "gaps"}
+                cat = cat_map.get(cat, cat)
                 if cat in CATEGORIES:
                     category = cat
             if line.startswith("title:"):
@@ -211,11 +214,13 @@ Keep answers concise and practical.""",
         return jsonify({"answer": answer})
 
     except Exception as e:
+        print("ASK ERROR:", e)
+        import traceback
+        traceback.print_exc()
         return jsonify({
             "error": "Claude ran into some issues. Please try again later.",
             "details": str(e)
         }), 500
-
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000)

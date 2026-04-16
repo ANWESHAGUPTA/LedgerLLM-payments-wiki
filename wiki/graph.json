@@ -1,214 +1,174 @@
 {
   "nodes": [
     {
-      "id": "stripe-authentication-required",
-      "title": "Stripe authentication_required",
-      "category": "code",
-      "network": "stripe",
-      "status": "complete"
-    },
-    {
-      "id": "stripe-insufficient-funds",
-      "title": "Stripe insufficient_funds",
-      "category": "code",
-      "network": "stripe",
-      "status": "complete"
-    },
-    {
-      "id": "stripe-fraudulent",
-      "title": "Stripe fraudulent",
-      "category": "code",
-      "network": "stripe",
-      "status": "complete"
-    },
-    {
-      "id": "stripe-generic-decline",
-      "title": "Stripe generic_decline",
-      "category": "code",
-      "network": "stripe",
-      "status": "complete"
-    },
-    {
-      "id": "stripe-card-errors",
-      "title": "Stripe card input errors",
-      "category": "concept",
-      "network": "stripe",
-      "status": "complete"
-    },
-    {
-      "id": "stripe-issuer-declines",
-      "title": "Stripe issuer decline codes",
-      "category": "concept",
-      "network": "stripe",
-      "status": "complete"
-    },
-    {
-      "id": "stripe-local-payment-declines",
-      "title": "Stripe local payment method declines",
-      "category": "concept",
-      "network": "stripe",
-      "status": "complete"
-    },
-    {
-      "id": "generic-decline-handling",
-      "title": "Generic decline handling",
-      "category": "gap",
-      "network": "all",
-      "status": "gap"
-    },
-    {
-      "id": "disputes",
-      "title": "Disputes",
+      "id": "3d-secure",
+      "title": "3D Secure",
       "category": "concept",
       "network": "all",
+      "status": "complete"
+    },
+    {
+      "id": "stripe-3ds-integration",
+      "title": "Stripe 3DS Integration",
+      "category": "process",
+      "network": "stripe",
       "status": "complete"
     },
     {
       "id": "stripe-dispute-handling",
-      "title": "Stripe dispute handling",
-      "category": "network",
+      "title": "Stripe Dispute Handling",
+      "category": "process",
       "network": "stripe",
       "status": "complete"
     },
     {
       "id": "smart-disputes",
       "title": "Smart Disputes",
+      "category": "process",
+      "network": "stripe",
+      "status": "complete"
+    },
+    {
+      "id": "stripe-payment-intents",
+      "title": "Stripe Payment Intents",
+      "category": "concept",
+      "network": "stripe",
+      "status": "complete"
+    },
+    {
+      "id": "payment-intent-lifecycle",
+      "title": "Payment Intent Lifecycle",
+      "category": "process",
+      "network": "stripe",
+      "status": "complete"
+    },
+    {
+      "id": "stripe-setup-intents",
+      "title": "Stripe Setup Intents",
+      "category": "concept",
+      "network": "stripe",
+      "status": "complete"
+    },
+    {
+      "id": "stripe-client-secret",
+      "title": "Stripe Client Secret",
+      "category": "concept",
+      "network": "stripe",
+      "status": "complete"
+    },
+    {
+      "id": "stripe-payment-methods",
+      "title": "Stripe Payment Methods",
       "category": "gap",
       "network": "stripe",
       "status": "gap"
     },
     {
-      "id": "dispute-reason-codes",
-      "title": "Dispute reason codes",
+      "id": "stripe-webhooks",
+      "title": "Stripe Webhooks",
+      "category": "gap",
+      "network": "stripe",
+      "status": "gap"
+    },
+    {
+      "id": "idempotency-keys",
+      "title": "Idempotency Keys",
       "category": "gap",
       "network": "all",
+      "status": "gap"
+    },
+    {
+      "id": "off-session-payments",
+      "title": "Off-session Payments",
+      "category": "gap",
+      "network": "all",
+      "status": "gap"
+    },
+    {
+      "id": "tls-encryption",
+      "title": "TLS Encryption",
+      "category": "gap",
+      "network": "all",
+      "status": "gap"
+    },
+    {
+      "id": "purchase-funnel",
+      "title": "Purchase Funnel",
+      "category": "gap",
+      "network": "all",
+      "status": "gap"
+    },
+    {
+      "id": "statement-descriptors",
+      "title": "Statement Descriptors",
+      "category": "gap",
+      "network": "all",
+      "status": "gap"
+    },
+    {
+      "id": "metadata",
+      "title": "Metadata",
+      "category": "gap",
+      "network": "all",
+      "status": "gap"
+    },
+    {
+      "id": "radar-fraud-teams",
+      "title": "Radar Fraud Teams",
+      "category": "gap",
+      "network": "stripe",
       "status": "gap"
     }
   ],
   "edges": [
     {
-      "source": "stripe-authentication-required",
-      "target": "3d-secure",
-      "type": "requires"
-    },
-    {
-      "source": "stripe-authentication-required",
+      "source": "3d-secure",
       "target": "strong-customer-authentication",
       "type": "related"
     },
     {
-      "source": "stripe-authentication-required",
-      "target": "stripe-decline-codes",
+      "source": "3d-secure",
+      "target": "visa-secure",
       "type": "part_of"
     },
     {
-      "source": "stripe-insufficient-funds",
-      "target": "hard-decline-codes",
+      "source": "3d-secure",
+      "target": "mastercard-identity-check",
       "type": "part_of"
     },
     {
-      "source": "stripe-insufficient-funds",
-      "target": "stripe-decline-codes",
+      "source": "3d-secure",
+      "target": "amex-safekey",
       "type": "part_of"
     },
     {
-      "source": "stripe-insufficient-funds",
-      "target": "payment-retry-strategy",
-      "type": "related"
-    },
-    {
-      "source": "stripe-fraudulent",
-      "target": "stripe-decline-codes",
-      "type": "part_of"
-    },
-    {
-      "source": "stripe-fraudulent",
+      "source": "3d-secure",
       "target": "fraud-detection",
-      "type": "related"
+      "type": "prevents"
     },
     {
-      "source": "stripe-fraudulent",
-      "target": "generic-decline-handling",
-      "type": "requires"
-    },
-    {
-      "source": "stripe-generic-decline",
-      "target": "stripe-decline-codes",
-      "type": "part_of"
-    },
-    {
-      "source": "stripe-generic-decline",
-      "target": "fraud-detection",
-      "type": "related"
-    },
-    {
-      "source": "stripe-card-errors",
-      "target": "stripe-decline-codes",
-      "type": "part_of"
-    },
-    {
-      "source": "stripe-card-errors",
-      "target": "payment-retry-strategy",
-      "type": "related"
-    },
-    {
-      "source": "stripe-issuer-declines",
-      "target": "stripe-decline-codes",
-      "type": "part_of"
-    },
-    {
-      "source": "stripe-issuer-declines",
-      "target": "payment-retry-strategy",
-      "type": "related"
-    },
-    {
-      "source": "stripe-local-payment-declines",
-      "target": "stripe-decline-codes",
-      "type": "part_of"
-    },
-    {
-      "source": "stripe-local-payment-declines",
-      "target": "payment-retry-strategy",
-      "type": "related"
-    },
-    {
-      "source": "disputes",
-      "target": "chargebacks",
-      "type": "related"
-    },
-    {
-      "source": "disputes",
-      "target": "chargeback-representment",
-      "type": "related"
-    },
-    {
-      "source": "disputes",
-      "target": "dispute-evidence-submission",
-      "type": "requires"
-    },
-    {
-      "source": "disputes",
-      "target": "chargeback-thresholds",
+      "source": "3d-secure",
+      "target": "stripe-authentication-required",
       "type": "triggers"
     },
     {
-      "source": "disputes",
-      "target": "dispute-reason-codes",
-      "type": "requires"
+      "source": "stripe-3ds-integration",
+      "target": "3d-secure",
+      "type": "related"
+    },
+    {
+      "source": "stripe-3ds-integration",
+      "target": "strong-customer-authentication",
+      "type": "related"
+    },
+    {
+      "source": "stripe-3ds-integration",
+      "target": "stripe-authentication-required",
+      "type": "related"
     },
     {
       "source": "stripe-dispute-handling",
       "target": "disputes",
-      "type": "part_of"
-    },
-    {
-      "source": "stripe-dispute-handling",
-      "target": "dispute-evidence-submission",
-      "type": "related"
-    },
-    {
-      "source": "stripe-dispute-handling",
-      "target": "smart-disputes",
       "type": "related"
     },
     {
@@ -219,22 +179,117 @@
     {
       "source": "smart-disputes",
       "target": "stripe-dispute-handling",
-      "type": "part_of"
+      "type": "related"
     },
     {
       "source": "smart-disputes",
-      "target": "dispute-evidence-submission",
-      "type": "related"
-    },
-    {
-      "source": "dispute-reason-codes",
-      "target": "disputes",
+      "target": "dispute-automation",
       "type": "part_of"
     },
     {
-      "source": "dispute-reason-codes",
-      "target": "dispute-evidence-submission",
+      "source": "stripe-dispute-handling",
+      "target": "stripe-disputes-dashboard",
+      "type": "requires"
+    },
+    {
+      "source": "disputes",
+      "target": "chargebacks",
       "type": "related"
+    },
+    {
+      "source": "stripe-dispute-handling",
+      "target": "dispute-reason-codes",
+      "type": "requires"
+    },
+    {
+      "source": "stripe-dispute-handling",
+      "target": "network-dispute-fees",
+      "type": "triggers"
+    },
+    {
+      "source": "stripe-payment-intents",
+      "target": "payment-intent-lifecycle",
+      "type": "part_of"
+    },
+    {
+      "source": "stripe-payment-intents",
+      "target": "stripe-setup-intents",
+      "type": "related"
+    },
+    {
+      "source": "stripe-payment-intents",
+      "target": "stripe-payment-methods",
+      "type": "requires"
+    },
+    {
+      "source": "stripe-payment-intents",
+      "target": "stripe-client-secret",
+      "type": "part_of"
+    },
+    {
+      "source": "stripe-payment-intents",
+      "target": "3d-secure",
+      "type": "related"
+    },
+    {
+      "source": "stripe-payment-intents",
+      "target": "strong-customer-authentication",
+      "type": "related"
+    },
+    {
+      "source": "stripe-payment-intents",
+      "target": "idempotency-keys",
+      "type": "requires"
+    },
+    {
+      "source": "payment-intent-lifecycle",
+      "target": "stripe-webhooks",
+      "type": "requires"
+    },
+    {
+      "source": "payment-intent-lifecycle",
+      "target": "3d-secure",
+      "type": "triggers"
+    },
+    {
+      "source": "stripe-setup-intents",
+      "target": "stripe-payment-methods",
+      "type": "related"
+    },
+    {
+      "source": "stripe-setup-intents",
+      "target": "strong-customer-authentication",
+      "type": "related"
+    },
+    {
+      "source": "stripe-setup-intents",
+      "target": "off-session-payments",
+      "type": "enables"
+    },
+    {
+      "source": "stripe-client-secret",
+      "target": "tls-encryption",
+      "type": "requires"
+    },
+    {
+      "source": "stripe-payment-intents",
+      "target": "purchase-funnel",
+      "type": "tracks"
+    },
+    {
+      "source": "stripe-payment-intents",
+      "target": "statement-descriptors",
+      "type": "supports"
+    },
+    {
+      "source": "stripe-payment-intents",
+      "target": "metadata",
+      "type": "supports"
+    },
+    {
+      "source": "metadata",
+      "target": "radar-fraud-teams",
+      "type": "supports"
     }
   ]
 }

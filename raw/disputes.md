@@ -3,7 +3,7 @@ source: https://docs.stripe.com/disputes
 title: Disputes | Stripe Documentation
 type: reference
 domain: payments
-ingested: 2026-04-15
+ingested: 2026-04-16
 tags: []
 ---
 

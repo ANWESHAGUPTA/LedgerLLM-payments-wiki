@@ -333,3 +333,186 @@ None in this compile pass.
 ### Incomplete information handled
 - Cross-network dispute differences noted but specific network comparison details need additional sources
 - Smart Disputes automation features mentioned but implementation details require dedicated source material
+
+
+## [2026-04-16] compile | raw/codes.md
+
+### Articles created
+- wiki/codes/stripe-authentication-required.md
+- wiki/codes/authentication-not-handled.md
+- wiki/codes/stripe-insufficient-funds.md
+- wiki/codes/stripe-fraudulent.md
+- wiki/codes/stripe-generic-decline.md
+- wiki/concepts/stripe-card-input-errors.md
+- wiki/codes/incorrect-number.md
+- wiki/codes/incorrect-cvc.md
+- wiki/codes/expired-card.md
+- wiki/concepts/stripe-local-payment-declines.md
+- wiki/codes/partner-generic-decline.md
+- wiki/codes/invalid-customer-account.md
+- wiki/codes/withdrawal-count-limit-exceeded.md
+- wiki/codes/card-velocity-exceeded.md
+- wiki/codes/testmode-decline.md
+
+### Articles updated
+- None (all new articles)
+
+### Gap stubs created
+- None (all codes had sufficient detail for full articles)
+
+### Cross-links added
+- stripe-authentication-required → 3d-secure (requires authentication)
+- authentication-not-handled → stripe-authentication-required (related flow)
+- stripe-fraudulent → stripe-generic-decline (similar presentation)
+- Input error codes → stripe-card-input-errors concept
+- LPM codes → stripe-local-payment-declines concept
+- Limit-related codes → related limit codes
+
+### Reasoning log
+- Applied synonym merging: incorrect_number/invalid_number treated as same concept
+- Applied synonym merging: incorrect_cvc/invalid_cvc treated as same concept
+- Created concept articles for card input errors and LPM declines to group related codes
+- Applied generic decline handling rule for fraud and sensitive declines
+- Cross-linked authentication codes to existing 3D Secure concept
+- All decline codes had 2+ sentences of detail, warranting full articles
+- Applied cross-linking rules for 3DS, fraud detection, and payment retry mentions
+
+### Contradictions found
+- None in this compile pass.
+
+### Incomplete information
+- Cross-network comparisons noted where Stripe codes relate to universal concepts
+- Some codes marked as needing issuer contact without specific network equivalents
+
+
+## [2026-04-16] compile | raw/disputes.md
+
+### Articles created
+- wiki/processes/stripe-dispute-handling.md
+- wiki/processes/smart-disputes.md
+
+### Articles updated
+- None (no existing articles required updates)
+
+### Gap stubs created
+- wiki/gaps/stripe-disputes-dashboard.md (mentioned as interface but not detailed)
+- wiki/gaps/dispute-automation.md (general concept referenced but not explained)
+- wiki/gaps/network-dispute-fees.md (mentioned but fee structure not detailed)
+- wiki/gaps/dispute-monitoring-programmes.md (referenced but specific programs not explained)
+
+### Cross-links added
+- stripe-dispute-handling → disputes, chargebacks, stripe-disputes-dashboard
+- smart-disputes → stripe-dispute-handling, dispute-automation
+- disputes → network-dispute-fees (triggers relationship)
+
+### Synonyms merged
+- "dispute" and "chargeback" treated as related but distinct concepts per existing wiki structure
+
+### Reasoning log
+- Created two process articles as source describes step-by-step workflows for handling disputes
+- Applied synonym rule: disputes and chargebacks maintained as separate concepts following existing wiki pattern
+- Incomplete info: Smart Disputes eligibility criteria not covered in source, flagged in article
+- Gap stubs created for mentioned concepts lacking sufficient detail: Dashboard interface, automation concepts, fee structures, monitoring programs
+- Cross-network comparison: Source is Stripe-specific, no Visa/Mastercard equivalents to compare in this source
+
+### Contradictions found
+- None in this compile pass.
+
+
+## [2026-04-16] compile | raw/3d-secure.md
+
+### Articles created
+- wiki/concepts/3d-secure.md
+- wiki/processes/stripe-3ds-integration.md
+
+### Articles updated
+- None
+
+### Gap stubs created
+- None (all referenced concepts already exist as gaps)
+
+### Cross-links added
+- 3d-secure → strong-customer-authentication, visa-secure, mastercard-identity-check, amex-safekey, psd2, fraud-detection, stripe-authentication-required
+- stripe-3ds-integration → 3d-secure, strong-customer-authentication, stripe-authentication-required
+
+### Reasoning log
+- Updated existing 3d-secure concept article with comprehensive information from Stripe docs
+- Created new process article for Stripe-specific 3DS integration approaches
+- Applied synonym merging: "3D Secure", "3DS", and "3D Secure (3DS)" merged into single concept
+- Cross-linked to existing gap articles for network-specific implementations (visa-secure, mastercard-identity-check, amex-safekey)
+- Cross-linked to regulatory concepts (strong-customer-authentication, psd2) that are mentioned but exist as gaps
+- Connected to existing decline code stripe-authentication-required
+- Incomplete info flagged: Cross-network comparison section notes missing implementation differences
+
+### Contradictions found
+- None in this compile pass.
+
+
+## [2026-04-16] compile | raw/disputes.md
+
+### Articles created
+- wiki/processes/stripe-dispute-handling.md
+- wiki/processes/smart-disputes.md
+
+### Articles updated
+- None
+
+### Gap stubs created
+- None (all referenced concepts already exist as gaps or articles)
+
+### Cross-links added
+- stripe-dispute-handling → disputes, chargeback-representment, smart-disputes, stripe-disputes-dashboard
+- smart-disputes → stripe-dispute-handling, dispute-automation, chargeback-representment
+
+### Reasoning log
+- Applied synonym rule: "dispute" and "chargeback" treated as same concept, linking to existing [[disputes]] article
+- Categorized both new articles as 'process' since they describe HOW to handle disputes rather than WHAT disputes are
+- Incomplete info: Smart Disputes eligibility criteria and evidence types not detailed in source, flagged as "Not covered in current sources"
+- Cross-network comparison: Source is Stripe-specific, no Visa/Mastercard equivalents mentioned
+- Created process articles rather than updating existing [[disputes]] concept article since source focuses on Stripe's specific handling procedures
+
+### Contradictions found
+- None in this compile pass.
+
+
+## [2026-04-16] compile | raw/payment-intents.md
+
+### Articles created
+- wiki/concepts/stripe-payment-intents.md
+- wiki/processes/payment-intent-lifecycle.md
+- wiki/concepts/stripe-setup-intents.md
+- wiki/concepts/stripe-client-secret.md
+
+### Gap stubs created
+- stripe-payment-methods (mentioned as part of API suite)
+- stripe-webhooks (mentioned for monitoring payment completion)
+- idempotency-keys (mentioned as best practice for preventing duplicates)
+- off-session-payments (mentioned in setup_future_usage context)
+- tls-encryption (mentioned as security requirement for client secrets)
+- purchase-funnel (mentioned for tracking checkout analytics)
+- statement-descriptors (mentioned for dynamic billing descriptors)
+- metadata (mentioned for payment reconciliation and fraud prevention)
+- radar-fraud-teams (mentioned as advanced fraud prevention tool)
+
+### Cross-links added
+- stripe-payment-intents → existing 3d-secure and strong-customer-authentication articles
+- payment-intent-lifecycle → 3d-secure for authentication handling
+- Multiple relationships between new Payment Intents concepts
+
+### Reasoning log
+- Created 4 full articles based on substantial content in source
+- Applied Stripe network categorization throughout
+- Payment Intent Lifecycle classified as 'process' due to step-by-step workflow description
+- Created 9 gap stubs for concepts mentioned but not fully explained
+- No contradictions found with existing articles
+- No incomplete cross-network information gaps (Stripe-specific functionality)
+- Strong Customer Authentication gap article already existed, linked appropriately
+
+### Source coverage
+- Comprehensive coverage of Payment Intents API concepts
+- Clear separation between core concept and implementation process
+- Security aspects (client secret) given dedicated coverage
+- Related APIs (Setup Intents, Payment Methods) identified for future sourcing
+
+### Contradictions found
+- None in this compile pass.

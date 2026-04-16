@@ -267,7 +267,23 @@
     border-radius: 99px; cursor: pointer;
     border: 0.5px solid;
   }
-  
+  /* SAMPLE LINKS */
+  .sample-link {
+    font-size: 12px; color: #3EC9A7;
+    background: #0F2420; padding: 6px 10px;
+    border-radius: 6px; border: 0.5px solid #1A3D34;
+    cursor: pointer;
+  }
+  .sample-link:hover { background: #1A3D34; }
+  .sample-link.added { opacity: 0.4; pointer-events: none; }
+
+  /* FOOTER */
+  .ledger-footer {
+    margin-top: 24px; padding-top: 16px;
+    border-top: 0.5px solid #2A2740;
+    font-size: 11px; color: #4A4560;
+    line-height: 1.6; text-align: center;
+  }
 </style>
 </head>
 <body>
@@ -292,9 +308,35 @@
     <div class="warning-icon">!</div>
     <p>For this POC, you can add up to 10 links for Ingest + Compile. Need more? Let us know.</p>
   </div>
-  <div class="compile-wrap">
+<div class="compile-wrap">
     <button class="compile-btn" id="compileBtn" onclick="startCompile()">Ingest + Compile</button>
   </div>
+
+  <div style="margin-top:28px;padding:16px;background:#1A1828;border:0.5px solid #2A2740;border-radius:10px;">
+    <div style="display:flex;align-items:center;gap:6px;margin-bottom:10px;">
+      <div style="width:14px;height:14px;border-radius:50%;background:#3EC9A7;display:flex;align-items:center;justify-content:center;font-size:9px;color:#0F0E17;font-weight:600;">?</div>
+      <span style="font-size:13px;color:#F0EEFF;font-weight:500;">Try it out — paste these sample links</span>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:6px;" id="sampleLinks">
+      <div class="sample-link" onclick="addSampleUrl(this)">https://docs.stripe.com/disputes</div>
+      <div class="sample-link" onclick="addSampleUrl(this)">https://docs.stripe.com/payments/3d-secure</div>
+      <div class="sample-link" onclick="addSampleUrl(this)">https://docs.stripe.com/payments/payment-intents</div>
+      <div class="sample-link" onclick="addSampleUrl(this)">https://docs.stripe.com/radar/reviews</div>
+    </div>
+    <p style="font-size:11px;color:#6B6490;margin:10px 0 0;">Click any link to auto-add it to the input above</p>
+  </div>
+
+  <div style="margin-top:20px;padding:12px 16px;background:#1A1828;border-left:3px solid #F0B866;border-radius:0;">
+    <p style="font-size:12px;color:#F0B866;margin:0 0 4px;font-weight:500;">Built for payments knowledge</p>
+    <p style="font-size:11px;color:#8D86B0;margin:0;line-height:1.5;">This MVP is optimized for payments systems documentation — Stripe, Visa, Mastercard, and other payment infrastructure sources work best. Feed it decline codes, dispute guides, and compliance docs to see the full power of the knowledge graph.</p>
+  </div>
+
+  <div class="ledger-footer">
+    LedgerLLM MVP v1.0 — Built by Anwesha Gupta — Powered by Claude API + D3.js<br>
+    Currently supports fresh compile per session. To add new sources, refresh and re-ingest.
+  </div>
+</div>
+
 </div>
 
 <!-- SCREEN 2: Loading -->
@@ -325,7 +367,6 @@
   </div>
 </div>
 
-<!-- SCREEN 3: Dashboard (we'll build this next) -->
 <!-- SCREEN 3: Dashboard -->
 <div class="screen" id="dashboardScreen">
 
@@ -368,7 +409,10 @@
     <div class="article-body" id="articleBody"></div>
     <div class="article-tags" id="articleTags"></div>
   </div>
-
+<div class="ledger-footer">
+    LedgerLLM MVP v1.0 — Built by Anwesha Gupta — Powered by Claude API + D3.js<br>
+    To add new sources, refresh and start a fresh compile. Up to 10 links per session.
+  </div>
 </div>
 <script>
     const API = "http://127.0.0.1:5000";
@@ -382,6 +426,12 @@
     processes:{ bg: "#231A10", border: "#3D2E18", text: "#F0B866", glow: "rgba(240,184,102,0.2)" },
     gaps:     { bg: "#261418", border: "#40222A", text: "#F87171", glow: "rgba(248,113,113,0.2)" }
   };
+  // handle singular category names from graph.json
+  CAT_COLORS["concept"] = CAT_COLORS["concepts"];
+  CAT_COLORS["code"] = CAT_COLORS["codes"];
+  CAT_COLORS["network"] = CAT_COLORS["networks"];
+  CAT_COLORS["process"] = CAT_COLORS["processes"];
+  CAT_COLORS["gap"] = CAT_COLORS["gaps"];
 
   let graphData = null;
   let articlesData = null;
@@ -786,19 +836,36 @@
     if (e.key === "Enter") askWiki();
   });
 
-  function showAnswer(text) {
-    const html = text.replace(/\[\[(.+?)\]\]/g, (match, id) => {
-      return `<span style="color:#3EC9A7;cursor:pointer;text-decoration:underline" onclick="loadArticle('${id}')">${id.replace(/-/g, " ")}</span>`;
-    });
+function showAnswer(text) {
+    // convert markdown to HTML
+    let html = text
+      .replace(/\[\[(.+?)\]\]/g, (match, id) => {
+        return `<a style="color:#3EC9A7;cursor:pointer;text-decoration:underline" onclick="loadArticle('${id}')">${id.replace(/-/g, " ")}</a>`;
+      })
+      .replace(/\*\*(.+?)\*\*/g, '<strong style="color:#F0EEFF">$1</strong>')
+      .replace(/`(.+?)`/g, '<code style="background:#252240;padding:2px 6px;border-radius:4px;font-size:12px;color:#3EC9A7">$1</code>')
+      .replace(/^### (.+)$/gm, '<h3 style="color:#F0EEFF;font-size:13px;margin:12px 0 6px;font-weight:500">$1</h3>')
+      .replace(/^## (.+)$/gm, '<h2 style="color:#F0EEFF;font-size:14px;margin:16px 0 8px;font-weight:500">$1</h2>')
+      .replace(/^- (.+)$/gm, '<div style="padding-left:12px;margin:4px 0">• $1</div>')
+      .replace(/\n\n/g, '</p><p style="margin-bottom:8px">')
+      .replace(/\n/g, '<br>');
 
     document.getElementById("articleDot").style.background = "#3EC9A7";
     document.getElementById("articleTitle").textContent = "Wiki answer";
     document.getElementById("articleCat").textContent = "Q&A";
     document.getElementById("articleCat").style.color = "#3EC9A7";
     document.getElementById("articleCat").style.background = "#0F2420";
-    document.getElementById("articleBody").innerHTML = `<p>${html}</p>`;
+    document.getElementById("articleBody").innerHTML = `<p style="margin-bottom:8px">${html}</p>`;
     document.getElementById("articleTags").innerHTML = "";
     document.getElementById("articleViewer").classList.add("open");
+  }
+function addSampleUrl(el) {
+    const url = el.textContent.trim();
+    if (urls.length >= MAX_URLS) return;
+    if (urls.includes(url)) return;
+    urls.push(url);
+    el.classList.add("added");
+    renderUrls();
   }
 </script>
 

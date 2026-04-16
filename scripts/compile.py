@@ -181,7 +181,7 @@ RESPOND WITH EXACTLY THIS JSON STRUCTURE (no other text):
   "articles": [
     {{
       "filename": "the-article-name.md",
-      "category": "concept OR code OR network OR process OR gap",
+      "category": "CATEGORIZE STRICTLY: code = any specific error code, status code, response code, or identifier with a fixed value. process = any workflow, procedure, strategy, or step-by-step guide describing HOW to do something. network = anything specific to a platform, provider, vendor, or external system. concept = general knowledge, definitions, overviews, or explanations of WHAT something is. gap = referenced in other articles but not enough info to write a full article. SPREAD articles across categories. If a source describes steps to follow, those articles MUST be process. If a source lists specific codes or identifiers, those MUST be code.",
       "content": "the full markdown content of the article"
     }}
   ],
