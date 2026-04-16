@@ -516,3 +516,172 @@ None in this compile pass.
 
 ### Contradictions found
 - None in this compile pass.
+
+
+## [2026-04-16] compile | raw/3d-secure.md
+
+### Articles created
+- wiki/concepts/3d-secure.md
+- wiki/processes/stripe-3ds-integration.md
+
+### Articles updated
+- None
+
+### Gap stubs created
+- None (all referenced concepts already exist as gaps)
+
+### Cross-links added
+- 3d-secure → strong-customer-authentication, psd2, visa-secure, mastercard-identity-check, amex-safekey, fraud-detection
+- stripe-3ds-integration → 3d-secure, stripe-payment-intents, stripe-setup-intents, strong-customer-authentication
+- stripe-authentication-required → 3d-secure (existing decline code now properly linked)
+
+### Reasoning log
+- Synonym merging applied: "3D Secure", "3DS", "3D Secure (3DS)" merged into single article
+- Cross-network structure created: 3DS concept article covers all networks, with network-specific branded implementations referenced as gaps (visa-secure, mastercard-identity-check, amex-safekey)
+- Process categorization: Stripe's integration methods classified as process article since they describe HOW to implement 3DS
+- Incomplete info flagged: Specific API endpoints and technical implementation details not covered in current source
+- Gap connections: Connected existing stripe-authentication-required decline code to 3d-secure concept via "requires" relationship
+
+### Contradictions found
+- None in this compile pass.
+
+
+## [2026-04-16] compile | raw/payment-intents.md
+
+### Articles created
+- wiki/concepts/stripe-payment-intents.md
+- wiki/processes/payment-intent-creation.md
+- wiki/processes/payment-intent-confirmation.md
+
+### Articles updated
+- None (updated existing Payment Intent Lifecycle article in index)
+
+### Gap stubs created
+- None (all referenced concepts already existed as gaps)
+
+### Cross-links added
+- stripe-payment-intents → stripe-setup-intents, stripe-payment-methods, 3d-secure, strong-customer-authentication, stripe-client-secret, payment-intent-lifecycle, off-session-payments, idempotency-keys, stripe-webhooks, metadata, statement-descriptors
+- payment-intent-creation → stripe-payment-intents, stripe-client-secret, idempotency-keys, purchase-funnel, payment-intent-lifecycle
+- payment-intent-confirmation → stripe-payment-intents, stripe-client-secret, 3d-secure, stripe-webhooks, payment-intent-lifecycle
+
+### Reasoning log
+- Categorized Payment Intents as concept (explains WHAT it is) vs the creation/confirmation processes (HOW to use it)
+- Split creation and confirmation into separate process articles as they represent distinct workflows with different technical requirements
+- Applied synonym rules: linked 3DS references to existing 3d-secure article
+- Applied cross-linking rules: all mentions of authentication, SCA, webhooks, etc. linked to appropriate articles
+- No source disagreements found - single authoritative Stripe documentation source
+- No incomplete information flagged - Stripe-specific documentation is comprehensive for their system
+
+### Contradictions found
+- None in this compile pass.
+
+
+## [2026-04-16] compile | raw/reviews.md
+
+### Articles created
+- wiki/concepts/stripe-reviews.md
+- wiki/processes/stripe-review-queue.md
+- wiki/concepts/smart-refunds.md
+- wiki/processes/manual-review-process.md
+
+### Articles updated
+- None - all concepts were new to the wiki
+
+### Gap stubs updated
+- radar-fraud-teams (now mentioned in 4 sources)
+- fraud-detection (now mentioned in 3 sources)
+- metadata (now mentioned in 3 sources)
+- dispute-evidence-submission (now mentioned in 2 sources)
+- chargeback-costs (now mentioned in 2 sources)
+- stripe-webhooks (now mentioned in 2 sources)
+
+### Gap stubs created
+- fulfillment (mentioned in context of delivery expectations)
+
+### Cross-links added
+- stripe-reviews → radar-fraud-teams, stripe-review-queue, smart-refunds, manual-review-process
+- stripe-review-queue → stripe-reviews, smart-refunds, radar-fraud-teams, metadata
+- smart-refunds → radar-fraud-teams, stripe-reviews, stripe-review-queue, dispute-evidence-submission, chargeback-costs
+- manual-review-process → stripe-reviews, stripe-review-queue, radar-fraud-teams, smart-refunds, metadata, fraud-detection
+
+### Reasoning log
+- Categorization: stripe-reviews and smart-refunds as concepts (explaining WHAT they are), stripe-review-queue and manual-review-process as processes (describing HOW to use them)
+- Smart Refunds confidence levels compiled into structured table format for clarity
+- Webhook events (review.opened, review.closed) noted in technical reference sections
+- Best practices from source preserved in manual-review-process article
+- Cross-network comparison noted as Stripe-specific functionality
+- Assignment system detailed as part of review queue process
+
+### Contradictions found
+- None in this compile pass.
+
+### Incomplete information
+- India Data Storage Migration Resources referenced but not detailed in source
+- ACH/SEPA Direct Debit rule testing mentioned but process not fully explained
+- Custom rules testing referenced but implementation details not provided
+
+
+## [2026-04-16] compile | raw/3d-secure.md
+
+### Articles created
+- wiki/concepts/3d-secure.md (updated existing with detailed content from Stripe documentation)
+- wiki/processes/stripe-3ds-integration.md (new process article for Stripe-specific integration methods)
+
+### Articles updated
+- None (3d-secure.md was expanded with comprehensive content)
+
+### Gap stubs referenced
+- wiki/gaps/strong-customer-authentication.md (regulatory requirement mentioned)
+- wiki/gaps/psd2.md (European regulation referenced)
+- wiki/gaps/visa-secure.md (Visa's branded 3DS implementation)
+- wiki/gaps/mastercard-identity-check.md (Mastercard's branded 3DS implementation)
+- wiki/gaps/amex-safekey.md (American Express's branded 3DS implementation)
+- wiki/gaps/fraud-detection.md (3DS used as fraud prevention tool)
+
+### Cross-links added
+- 3d-secure → strong-customer-authentication, psd2, visa-secure, mastercard-identity-check, amex-safekey, stripe-3ds-integration, fraud-detection
+- stripe-3ds-integration → 3d-secure, stripe-payment-intents, stripe-setup-intents, strong-customer-authentication
+
+### Reasoning log
+- Synonym applied: "3D Secure" = "3DS" = "3-D Secure" merged into single concept article
+- Cross-network comparison: Identified network-specific branding (Visa Secure, Mastercard Identity Check, Amex SafeKey) as gap stubs needing dedicated sources
+- Process article created: Stripe's integration methods constitute a step-by-step workflow qualifying as process category
+- Gap references: Multiple concepts mentioned (SCA, PSD2, network branding) but not explained in depth - maintained as gap stubs
+- Missing info flagged: Specific technical implementation details, API endpoints, and compliance deadlines not covered in current source
+
+### Contradictions found
+- None in this compile pass.
+
+
+## [2026-04-16] compile | raw/reviews.md
+
+### Articles created
+- wiki/processes/stripe-review-queue.md
+- wiki/concepts/smart-refunds.md
+
+### Articles updated
+- None
+
+### Gap stubs created
+- None (radar-fraud-teams and fulfillment already exist as gaps)
+
+### Cross-links added
+- stripe-review-queue → stripe-reviews, manual-review-process, smart-refunds, radar-fraud-teams
+- smart-refunds → stripe-reviews, stripe-review-queue, radar-fraud-teams, fraud-detection
+
+### Reasoning log
+- Created stripe-review-queue as process article: source provides detailed workflow for reviewing payments through Stripe Dashboard
+- Created smart-refunds as concept article: source explains AI-powered fraud prediction system with confidence levels and business impact
+- Applied synonym handling: "review queue" and "reviews" treated as separate concepts - queue is the process, reviews is the general capability
+- Cross-linked to existing gap article radar-fraud-teams as both new articles require this feature
+- Cross-linked to existing concepts stripe-reviews and manual-review-process
+- Added fulfillment reference to gaps based on source mention but did not create new gap as it already exists
+- Webhook events review.opened and review.closed documented in technical reference section
+- Confidence levels table preserved with exact percentages from source
+
+### Contradictions found
+- None in this compile pass.
+
+### Incomplete information
+- Cross-network comparison not applicable - source is Stripe-specific
+- No missing information requiring search of other sources

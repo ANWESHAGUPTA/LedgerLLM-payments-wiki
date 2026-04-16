@@ -2,8 +2,8 @@
 title: Stripe 3DS Integration
 category: process
 network: stripe
-related: [[3d-secure]], [[strong-customer-authentication]], [[stripe-authentication-required]]
-sources: ["3d-secure.md"]
+related: [[3d-secure]], [[stripe-payment-intents]], [[stripe-setup-intents]], [[strong-customer-authentication]]
+sources: ["raw/3d-secure.md"]
 last_compiled: 2026-04-16
 confidence: medium
 ---
@@ -11,32 +11,35 @@ confidence: medium
 # Stripe 3DS Integration
 
 ## Summary
-Stripe provides multiple approaches for integrating 3D Secure authentication into payment flows, from standard checkout integration to specialized configurations for regulatory compliance and fraud reduction.
+Stripe provides multiple approaches for integrating [[3d-secure]] authentication into checkout flows, including options for SCA exemptions, Data Only authentication, and third-party gateway processing.
 
 ## Details
-Stripe offers several 3DS integration options:
+Stripe offers several 3DS integration methods:
 
-1. **Standard Integration**: Integrate [[3d-secure]] directly into your checkout flow
-2. **SCA Compliance**: Use SCA exemptions and Data Only to reduce cardholder friction on eligible transactions
-3. **Hybrid Processing**: Run 3DS on Stripe while processing the subsequent payment on a third-party gateway
-4. **External 3DS**: Process payments when 3DS authentication runs outside Stripe
-5. **Performance Monitoring**: Track how 3DS affects payment success rates through the Stripe Dashboard
+### Primary Integration Options
+1. **Integrate 3D Secure into checkout flow** - Full 3DS authentication during payment processing
+2. **Use SCA exemptions and Data Only** - Reduce cardholder friction on eligible transactions
+3. **Run 3DS on Stripe, process on third-party** - Use Stripe for authentication while processing payments elsewhere
+4. **Process when 3DS runs outside Stripe** - Handle payments when authentication occurs on external systems
+
+### Dashboard Analytics
+Stripe provides analytics showing how [[3d-secure]] affects payment success rates through the Dashboard, enabling merchants to optimize their authentication strategy.
 
 ## Compliance notes
-Stripe's 3DS implementation supports [[strong-customer-authentication]] requirements under [[psd2]] and similar regulations. SCA exemptions can be applied to eligible transactions to reduce friction while maintaining compliance.
+Stripe's 3DS integration helps merchants comply with [[strong-customer-authentication]] requirements under [[psd2]] and similar regulations in multiple jurisdictions.
 
 ## Technical reference
-When 3DS authentication fails or is required but not provided, Stripe returns decline codes such as [[stripe-authentication-required]].
-
-Dashboard analytics show the impact of 3DS on payment success rates, helping merchants optimize their authentication strategy.
-
-## Cross-network comparison
-Not covered in current sources: how Stripe's 3DS implementation differs from other payment processors or direct network integrations.
+Integration typically involves:
+- [[stripe-payment-intents]] for handling complex payment flows
+- [[stripe-setup-intents]] for saving payment methods with authentication
+- Dashboard configuration for exemption rules
+- Analytics tracking for success rate optimization
 
 ## Related
 - [[3d-secure]]
+- [[stripe-payment-intents]]
+- [[stripe-setup-intents]]
 - [[strong-customer-authentication]]
-- [[stripe-authentication-required]]
 
 ## Sources
 - raw/3d-secure.md

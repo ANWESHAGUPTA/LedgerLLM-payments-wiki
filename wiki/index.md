@@ -18,6 +18,8 @@
 - [[stripe-payment-intents]] — Stripe's primary API for handling payments with complex flows and authentication
 - [[stripe-setup-intents]] — Stripe's API for saving payment methods for future use with authentication handling
 - [[stripe-client-secret]] — Unique security key enabling secure client-side payment completion
+- [[stripe-reviews]] — Manual fraud inspection capabilities that supplement automated fraud prevention systems
+- [[smart-refunds]] — AI-powered recommendations to refund payments predicted to have high fraud risk
 
 ## Codes
 - [[stripe-authentication-required]] — Card declined because transaction requires 3D Secure authentication
@@ -54,6 +56,10 @@
 - [[smart-disputes]] — Stripe's automated evidence collection and submission system for eligible disputes
 - [[stripe-3ds-integration]] — Stripe's multiple approaches for integrating 3D Secure authentication
 - [[payment-intent-lifecycle]] — Stripe's payment processing workflow from creation through completion
+- [[payment-intent-creation]] — Process of creating Stripe Payment Intents with proper security and reuse strategies
+- [[payment-intent-confirmation]] — Client-side process for completing Stripe payments using client secrets
+- [[stripe-review-queue]] — Prioritized Dashboard interface for examining potentially fraudulent payments
+- [[manual-review-process]] — Step-by-step workflow for examining potentially fraudulent payments using human judgment
 
 ## Gaps
 - [[strong-customer-authentication]] — Mentioned in 2 sources, needs dedicated coverage
@@ -61,7 +67,7 @@
 - [[visa-secure]] — Visa's branded 3DS implementation, needs dedicated coverage
 - [[mastercard-identity-check]] — Mastercard's branded 3DS implementation, needs dedicated coverage
 - [[amex-safekey]] — American Express's branded 3DS implementation, needs dedicated coverage
-- [[fraud-detection]] — Mentioned in 2 sources, needs dedicated coverage
+- [[fraud-detection]] — Mentioned in 3 sources, needs dedicated coverage
 - [[dispute-evidence-submission]] — Process for submitting dispute evidence, needs dedicated coverage
 - [[acquirer-processor-relationship]] — Role of acquirers/processors in disputes, needs dedicated coverage
 - [[chargeback-costs]] — Financial impact of chargebacks beyond transaction amount, needs dedicated coverage
@@ -88,3 +94,4 @@
 - [[statement-descriptors]] — Text appearing on customer card statements, needs dedicated coverage
 - [[metadata]] — Custom data storage for payment reconciliation, needs dedicated coverage
 - [[radar-fraud-teams]] — Stripe's advanced fraud prevention tools, needs dedicated coverage
+- [[fulfillment]] — Order completion and delivery process, needs dedicated coverage

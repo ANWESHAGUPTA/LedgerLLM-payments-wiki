@@ -15,99 +15,71 @@
       "status": "complete"
     },
     {
-      "id": "stripe-dispute-handling",
-      "title": "Stripe Dispute Handling",
+      "id": "strong-customer-authentication",
+      "title": "Strong Customer Authentication",
+      "category": "gap",
+      "network": "all",
+      "status": "gap"
+    },
+    {
+      "id": "psd2",
+      "title": "PSD2",
+      "category": "gap",
+      "network": "all",
+      "status": "gap"
+    },
+    {
+      "id": "visa-secure",
+      "title": "Visa Secure",
+      "category": "gap",
+      "network": "visa",
+      "status": "gap"
+    },
+    {
+      "id": "mastercard-identity-check",
+      "title": "Mastercard Identity Check",
+      "category": "gap",
+      "network": "mastercard",
+      "status": "gap"
+    },
+    {
+      "id": "amex-safekey",
+      "title": "American Express SafeKey",
+      "category": "gap",
+      "network": "amex",
+      "status": "gap"
+    },
+    {
+      "id": "fraud-detection",
+      "title": "Fraud Detection",
+      "category": "gap",
+      "network": "all",
+      "status": "gap"
+    },
+    {
+      "id": "stripe-review-queue",
+      "title": "Stripe Review Queue",
       "category": "process",
       "network": "stripe",
       "status": "complete"
     },
     {
-      "id": "smart-disputes",
-      "title": "Smart Disputes",
-      "category": "process",
-      "network": "stripe",
-      "status": "complete"
-    },
-    {
-      "id": "stripe-payment-intents",
-      "title": "Stripe Payment Intents",
+      "id": "smart-refunds",
+      "title": "Smart Refunds",
       "category": "concept",
       "network": "stripe",
       "status": "complete"
     },
     {
-      "id": "payment-intent-lifecycle",
-      "title": "Payment Intent Lifecycle",
-      "category": "process",
-      "network": "stripe",
-      "status": "complete"
-    },
-    {
-      "id": "stripe-setup-intents",
-      "title": "Stripe Setup Intents",
-      "category": "concept",
-      "network": "stripe",
-      "status": "complete"
-    },
-    {
-      "id": "stripe-client-secret",
-      "title": "Stripe Client Secret",
-      "category": "concept",
-      "network": "stripe",
-      "status": "complete"
-    },
-    {
-      "id": "stripe-payment-methods",
-      "title": "Stripe Payment Methods",
-      "category": "gap",
-      "network": "stripe",
-      "status": "gap"
-    },
-    {
-      "id": "stripe-webhooks",
-      "title": "Stripe Webhooks",
-      "category": "gap",
-      "network": "stripe",
-      "status": "gap"
-    },
-    {
-      "id": "idempotency-keys",
-      "title": "Idempotency Keys",
+      "id": "stripe-reviews",
+      "title": "Stripe Reviews",
       "category": "gap",
       "network": "all",
       "status": "gap"
     },
     {
-      "id": "off-session-payments",
-      "title": "Off-session Payments",
-      "category": "gap",
-      "network": "all",
-      "status": "gap"
-    },
-    {
-      "id": "tls-encryption",
-      "title": "TLS Encryption",
-      "category": "gap",
-      "network": "all",
-      "status": "gap"
-    },
-    {
-      "id": "purchase-funnel",
-      "title": "Purchase Funnel",
-      "category": "gap",
-      "network": "all",
-      "status": "gap"
-    },
-    {
-      "id": "statement-descriptors",
-      "title": "Statement Descriptors",
-      "category": "gap",
-      "network": "all",
-      "status": "gap"
-    },
-    {
-      "id": "metadata",
-      "title": "Metadata",
+      "id": "manual-review-process",
+      "title": "Manual Review Process",
       "category": "gap",
       "network": "all",
       "status": "gap"
@@ -116,7 +88,7 @@
       "id": "radar-fraud-teams",
       "title": "Radar Fraud Teams",
       "category": "gap",
-      "network": "stripe",
+      "network": "all",
       "status": "gap"
     }
   ],
@@ -124,6 +96,11 @@
     {
       "source": "3d-secure",
       "target": "strong-customer-authentication",
+      "type": "related"
+    },
+    {
+      "source": "3d-secure",
+      "target": "psd2",
       "type": "related"
     },
     {
@@ -147,11 +124,6 @@
       "type": "prevents"
     },
     {
-      "source": "3d-secure",
-      "target": "stripe-authentication-required",
-      "type": "triggers"
-    },
-    {
       "source": "stripe-3ds-integration",
       "target": "3d-secure",
       "type": "related"
@@ -162,134 +134,49 @@
       "type": "related"
     },
     {
-      "source": "stripe-3ds-integration",
-      "target": "stripe-authentication-required",
-      "type": "related"
-    },
-    {
-      "source": "stripe-dispute-handling",
-      "target": "disputes",
-      "type": "related"
-    },
-    {
-      "source": "stripe-dispute-handling",
-      "target": "chargeback-representment",
-      "type": "related"
-    },
-    {
-      "source": "smart-disputes",
-      "target": "stripe-dispute-handling",
-      "type": "related"
-    },
-    {
-      "source": "smart-disputes",
-      "target": "dispute-automation",
+      "source": "strong-customer-authentication",
+      "target": "psd2",
       "type": "part_of"
     },
     {
-      "source": "stripe-dispute-handling",
-      "target": "stripe-disputes-dashboard",
-      "type": "requires"
-    },
-    {
-      "source": "disputes",
-      "target": "chargebacks",
+      "source": "stripe-review-queue",
+      "target": "stripe-reviews",
       "type": "related"
     },
     {
-      "source": "stripe-dispute-handling",
-      "target": "dispute-reason-codes",
-      "type": "requires"
-    },
-    {
-      "source": "stripe-dispute-handling",
-      "target": "network-dispute-fees",
-      "type": "triggers"
-    },
-    {
-      "source": "stripe-payment-intents",
-      "target": "payment-intent-lifecycle",
-      "type": "part_of"
-    },
-    {
-      "source": "stripe-payment-intents",
-      "target": "stripe-setup-intents",
+      "source": "stripe-review-queue",
+      "target": "manual-review-process",
       "type": "related"
     },
     {
-      "source": "stripe-payment-intents",
-      "target": "stripe-payment-methods",
-      "type": "requires"
-    },
-    {
-      "source": "stripe-payment-intents",
-      "target": "stripe-client-secret",
-      "type": "part_of"
-    },
-    {
-      "source": "stripe-payment-intents",
-      "target": "3d-secure",
+      "source": "stripe-review-queue",
+      "target": "smart-refunds",
       "type": "related"
     },
     {
-      "source": "stripe-payment-intents",
-      "target": "strong-customer-authentication",
-      "type": "related"
-    },
-    {
-      "source": "stripe-payment-intents",
-      "target": "idempotency-keys",
-      "type": "requires"
-    },
-    {
-      "source": "payment-intent-lifecycle",
-      "target": "stripe-webhooks",
-      "type": "requires"
-    },
-    {
-      "source": "payment-intent-lifecycle",
-      "target": "3d-secure",
-      "type": "triggers"
-    },
-    {
-      "source": "stripe-setup-intents",
-      "target": "stripe-payment-methods",
-      "type": "related"
-    },
-    {
-      "source": "stripe-setup-intents",
-      "target": "strong-customer-authentication",
-      "type": "related"
-    },
-    {
-      "source": "stripe-setup-intents",
-      "target": "off-session-payments",
-      "type": "enables"
-    },
-    {
-      "source": "stripe-client-secret",
-      "target": "tls-encryption",
-      "type": "requires"
-    },
-    {
-      "source": "stripe-payment-intents",
-      "target": "purchase-funnel",
-      "type": "tracks"
-    },
-    {
-      "source": "stripe-payment-intents",
-      "target": "statement-descriptors",
-      "type": "supports"
-    },
-    {
-      "source": "stripe-payment-intents",
-      "target": "metadata",
-      "type": "supports"
-    },
-    {
-      "source": "metadata",
+      "source": "stripe-review-queue",
       "target": "radar-fraud-teams",
-      "type": "supports"
+      "type": "requires"
+    },
+    {
+      "source": "smart-refunds",
+      "target": "stripe-reviews",
+      "type": "related"
+    },
+    {
+      "source": "smart-refunds",
+      "target": "stripe-review-queue",
+      "type": "part_of"
+    },
+    {
+      "source": "smart-refunds",
+      "target": "radar-fraud-teams",
+      "type": "requires"
+    },
+    {
+      "source": "smart-refunds",
+      "target": "fraud-detection",
+      "type": "related"
     }
   ]
 }

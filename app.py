@@ -12,7 +12,6 @@ from ingest import ingest_url
 from compile import compile_source
 
 import anthropic
-
 app = Flask(__name__)
 CORS(app)
 
@@ -156,7 +155,68 @@ def compile_wiki():
         # count what was created
         articles = find_all_articles()
         total = sum(len(v) for v in articles.values())
+# Create .md files for all gap nodes
+        if os.path.exists(GRAPH_PATH):
+            with open(GRAPH_PATH, "r", encoding="utf-8") as f:
+                graph = json.load(f)
+            
+            # collect all actual article IDs
+            all_article_ids = set()
+            for md_file in glob.glob(os.path.join(WIKI_DIR, "**", "*.md"), recursive=True):
+                fname = os.path.basename(md_file)
+                if fname not in ["index.md", "log.md"]:
+                    all_article_ids.add(fname.replace(".md", ""))
+            
+            # fix ghost concepts in graph.json
+            for node in graph.get("nodes", []):
+                if node["id"] not in all_article_ids:
+                    node["category"] = "gap"
+                    node["status"] = "gap"
+            
+            # add edge-only topics as gap nodes
+            node_ids = set(n["id"] for n in graph["nodes"])
+            for edge in graph.get("edges", []):
+                for ref in [edge["source"], edge["target"]]:
+                    if ref not in node_ids:
+                        graph["nodes"].append({
+                            "id": ref,
+                            "title": ref.replace("-", " ").title(),
+                            "category": "gap",
+                            "network": "all",
+                            "status": "gap"
+                        })
+                        node_ids.add(ref)
+            
+            # save updated graph
+            with open(GRAPH_PATH, "w", encoding="utf-8") as f:
+                json.dump(graph, f, indent=2)
+            
+            # create .md files for every gap node that doesn't have one
+            gaps_dir = os.path.join(WIKI_DIR, "gaps")
+            os.makedirs(gaps_dir, exist_ok=True)
+            for node in graph["nodes"]:
+                if node.get("status") == "gap" and node["id"] not in all_article_ids:
+                    gap_content = f"""---
+title: {node["title"]}
+category: gap
+network: {node.get("network", "all")}
+related: []
+sources: []
+last_compiled: auto-generated
+confidence: none
+---
 
+# {node["title"]}
+
+## Summary
+This topic is referenced across your knowledge base but has no dedicated article yet. Add more sources that cover this topic and recompile to fill this gap.
+
+## Related
+Referenced in cross-links but no source material available.
+"""
+                    gap_path = os.path.join(gaps_dir, f"{node['id']}.md")
+                    with open(gap_path, "w", encoding="utf-8") as f:
+                        f.write(gap_content)
         return jsonify({
             "status": "success",
             "message": f"Wiki compiled: {total} articles from {len(urls)} sources",
@@ -224,3 +284,29 @@ Keep answers concise and practical.""",
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
+
+    # Route 6: reset wiki — wipe everything and start fresh
+@app.route("/api/reset", methods=["POST"])
+def reset_wiki():
+    try:
+        # clear raw folder
+        if os.path.exists(RAW_DIR):
+            shutil.rmtree(RAW_DIR)
+        os.makedirs(RAW_DIR)
+
+        # clear all wiki content
+        for cat in CATEGORIES:
+            cat_dir = os.path.join(WIKI_DIR, cat)
+            if os.path.exists(cat_dir):
+                shutil.rmtree(cat_dir)
+            os.makedirs(cat_dir)
+        
+        # remove graph and index
+        for f in ["graph.json", "index.md", "log.md"]:
+            fpath = os.path.join(WIKI_DIR, f)
+            if os.path.exists(fpath):
+                os.remove(fpath)
+
+        return jsonify({"status": "success", "message": "Wiki reset complete"})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500

@@ -409,12 +409,16 @@
     <div class="article-body" id="articleBody"></div>
     <div class="article-tags" id="articleTags"></div>
   </div>
-<div class="ledger-footer">
+<div style="display:flex;justify-content:center;margin-top:24px;">
+    <button onclick="resetWiki()" style="background:none;border:0.5px solid #40222A;color:#F87171;padding:8px 20px;border-radius:8px;font-size:12px;cursor:pointer;">Reset wiki and start over</button>
+  </div>
+  <div class="ledger-footer">
     LedgerLLM MVP v1.0 — Built by Anwesha Gupta — Powered by Claude API + D3.js<br>
-    To add new sources, refresh and start a fresh compile. Up to 10 links per session.
+    To add new sources, Reset and start a fresh compile. Up to 10 links per session.
   </div>
 </div>
 <script>
+    //const API = "http://127.0.0.1:5000";
     const API = "https://ledgerllm-payments-wiki.onrender.com";
   const MAX_URLS = 10;
   let urls = [];
@@ -866,6 +870,18 @@ function addSampleUrl(el) {
     urls.push(url);
     el.classList.add("added");
     renderUrls();
+  }
+  async function resetWiki() {
+    if (!confirm("This will wipe all articles, graphs, and data. Are you sure?")) return;
+    try {
+      await fetch(`${API}/api/reset`, { method: "POST" });
+      graphData = null;
+      articlesData = null;
+      urls = [];
+      showScreen("inputScreen");
+    } catch (err) {
+      alert("Reset failed. Please try again.");
+    }
   }
 </script>
 

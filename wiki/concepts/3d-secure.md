@@ -2,8 +2,8 @@
 title: 3D Secure
 category: concept
 network: all
-related: [[strong-customer-authentication]], [[visa-secure]], [[mastercard-identity-check]], [[amex-safekey]], [[psd2]], [[fraud-detection]], [[stripe-authentication-required]]
-sources: ["3d-secure.md"]
+related: [[strong-customer-authentication]], [[psd2]], [[visa-secure]], [[mastercard-identity-check]], [[amex-safekey]], [[stripe-3ds-integration]], [[fraud-detection]]
+sources: ["raw/3d-secure.md"]
 last_compiled: 2026-04-16
 confidence: high
 ---
@@ -11,36 +11,31 @@ confidence: high
 # 3D Secure
 
 ## Summary
-3D Secure (3DS) is an authentication protocol that adds an additional security layer to card transactions. By verifying that the person making a purchase is the legitimate cardholder, 3DS helps protect both businesses and customers from fraudulent activity.
+3D Secure (3DS) is an authentication protocol that adds an additional security layer to card transactions by verifying that the person making a purchase is the legitimate cardholder. It helps protect both businesses and customers from fraudulent activity through familiar security prompts like passwords, one-time codes, or biometric verification.
 
 ## Details
-When 3DS is activated, the issuing bank might request cardholders authenticate through familiar security prompts such as:
+When 3DS is activated, the issuing bank may request cardholders to authenticate during checkout. This authentication typically appears as:
 - Password entry
 - One-time code sent to mobile device
-- Biometric verification
+- Biometric verification (fingerprint, face recognition)
 
-Customers may recognize this process through card network branding such as:
-- [[visa-secure]] (Visa)
-- [[mastercard-identity-check]] (Mastercard)
-- [[amex-safekey]] (American Express)
+Customers recognize this process through card network branding:
+- [[visa-secure]] (Visa's implementation)
+- [[mastercard-identity-check]] (Mastercard's implementation) 
+- [[amex-safekey]] (American Express's implementation)
 
-3DS serves dual purposes:
-1. **Fraud reduction** - Available globally as an optional tool to reduce fraudulent transactions
-2. **Regulatory compliance** - Required in certain regions for [[strong-customer-authentication]] compliance
+3DS is optional in most regions but can be used as a tool to reduce [[fraud-detection]]. However, it may impact conversion rates due to additional friction in the checkout process.
 
 ## Compliance notes
-The [[strong-customer-authentication]] (SCA) regulation, as part of [[psd2]] in the EEA and similar regulations in the UK, India, Japan, and Australia, might require using 3DS for card payments. Effective dates and specific requirements vary by jurisdiction.
-
-3DS is optional in other regions but can still be implemented as a fraud prevention tool.
+The [[strong-customer-authentication]] (SCA) regulation, as part of [[psd2]] in the EEA and similar regulations in the UK, India, Japan, and Australia, may require using 3DS for card payments. Effective dates and specific requirements vary by jurisdiction.
 
 ## Technical reference
-When 3DS authentication is required but not completed, payments typically fail with decline codes such as [[stripe-authentication-required]].
+3D Secure operates as a three-domain model:
+1. Acquirer Domain (merchant)
+2. Issuer Domain (cardholder's bank)
+3. Interoperability Domain (card network)
 
-Stripe provides several 3DS integration options:
-- Standard 3DS integration in checkout flow
-- SCA exemptions and Data Only to reduce friction
-- 3DS authentication with third-party payment processing
-- Processing payments when 3DS runs outside Stripe
+The protocol enables secure authentication data exchange between these domains during transaction processing.
 
 ## Cross-network comparison
 All major card networks support 3DS but brand it differently:
@@ -48,16 +43,16 @@ All major card networks support 3DS but brand it differently:
 - **Mastercard**: [[mastercard-identity-check]]
 - **American Express**: [[amex-safekey]]
 
-Not covered in current sources: specific implementation differences between networks, authentication method preferences, or success rate variations.
+Implementation details and merchant integration requirements may vary across networks.
 
 ## Related
 - [[strong-customer-authentication]]
+- [[psd2]]
 - [[visa-secure]]
 - [[mastercard-identity-check]]
 - [[amex-safekey]]
-- [[psd2]]
+- [[stripe-3ds-integration]]
 - [[fraud-detection]]
-- [[stripe-authentication-required]]
 
 ## Sources
 - raw/3d-secure.md
