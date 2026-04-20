@@ -2,7 +2,7 @@
 # compile.py — The brain of Ledger
 #
 # What this does:
-#   1. Reads CLAUDE.md (your schema/rules)
+#   1. Reads Claude.md (your schema/rules)
 #   2. Reads a raw source file
 #   3. Reads the current index (if it exists)
 #   4. Sends all of this to Claude API
@@ -100,7 +100,7 @@ def compile_source(source_filename, client):
     Takes one raw source file and compiles it into wiki articles.
     
     This is where Claude does the heavy lifting:
-    - Reads the schema (CLAUDE.md) to know the rules
+    - Reads the schema (Claude.md) to know the rules
     - Reads the raw source to know the content
     - Reads the current index to know what already exists
     - Writes new articles or updates to existing ones
@@ -115,7 +115,7 @@ def compile_source(source_filename, client):
     # The schema — tells Claude HOW to write articles
     schema = read_file(SCHEMA_PATH)
     if not schema:
-        print("ERROR: CLAUDE.md not found! Cannot compile without schema.")
+        print("ERROR: Claude.md not found! Cannot compile without schema.")
         return
     
     # The raw source — the actual content to compile
