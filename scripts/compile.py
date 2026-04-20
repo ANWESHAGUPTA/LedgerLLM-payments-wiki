@@ -29,7 +29,7 @@ PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # All the key paths
 RAW_DIR = os.path.join(PROJECT_ROOT, 'raw')
 WIKI_DIR = os.path.join(PROJECT_ROOT, 'wiki')
-SCHEMA_PATH = os.path.join(PROJECT_ROOT, 'CLAUDE.md')
+SCHEMA_PATH = os.path.join(PROJECT_ROOT, 'Claude.md')
 INDEX_PATH = os.path.join(WIKI_DIR, 'index.md')
 GRAPH_PATH = os.path.join(WIKI_DIR, 'graph.json')
 LOG_PATH = os.path.join(WIKI_DIR, 'log.md')
